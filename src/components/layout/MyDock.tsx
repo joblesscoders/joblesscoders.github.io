@@ -105,7 +105,7 @@ export default function MyDock() {
     <div
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
-      className="absolute bottom-0 left-0 right-0 z-50 flex justify-center p-4"
+      className="fixed bottom-0 left-0 right-0 z-50 flex justify-center p-4"
     >
       <TooltipProvider>
         {/* 3. Pass the mouseX motion value as a prop to the Dock component. */}

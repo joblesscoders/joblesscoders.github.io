@@ -77,8 +77,8 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   /* Aurora Gradients for Light Mode */
-  --aurora-color-1: oklch(0.8 0.15 250 / 50%); /* Soft Lavender */
-  --aurora-color-2: oklch(0.85 0.1 200 / 50%); /* Light Sky Blue */
+  --aurora-color-1: oklch(36.74% 0.09181 246.059 / 0.5); /* Soft Lavender */
+  --aurora-color-2: oklch(36.956% 0.06124 201.328 / 0.5); /* Light Sky Blue */
   --aurora-color-3: oklch(0.8 0.12 300 / 50%); /* Gentle Pink */
 }
 
@@ -117,8 +117,8 @@
   --gradient-start: oklch(0.4822 0.0719 215.25);
   --gradient-end: oklch(0.05 0.0269 296.44);
   /* Aurora Gradients for Dark Mode */
-  --aurora-color-1: oklch(21.222% 0.03258 205.532); 
-  --aurora-color-2: oklch(22.354% 0.04684 163.147 / 0.984); 
+  --aurora-color-1: oklch(18.106% 0.00162 197.716); 
+  --aurora-color-2: oklch(29.388% 0.02914 192.193 / 0.984); 
   --aurora-color-3: oklch(0% 0 0); 
 }
 
@@ -137,8 +137,8 @@
         /* url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="a" x="0" y="0" width="100%" height="100%"><feTurbulence baseFrequency="0.8" numOctaves="1" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter><rect width="100%" height="100%" filter="url(%23a)"/></svg>'), */
 
         /* Color Blobs */
-        radial-gradient(circle at 15% 25%, var(--aurora-color-1), transparent 60%),
-        radial-gradient(circle at 80% 15%, var(--aurora-color-2), transparent 50%),
+        radial-gradient(circle at 85% 25%, var(--aurora-color-1), transparent 60%),
+        radial-gradient(circle at 20% 45%, var(--aurora-color-2), transparent 50%),
         radial-gradient(circle at 25% 90%, var(--aurora-color-3), transparent 40%),
         radial-gradient(circle at 75% 85%, var(--aurora-color-1), transparent 40%);
   }

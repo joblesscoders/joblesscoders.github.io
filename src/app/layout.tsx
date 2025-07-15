@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import MyDock from "@/components/layout/MyDock";
+import MyNavbar from "@/components/layout/MyNavbar";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -34,8 +35,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
+          <MyNavbar />
+          <div className="pt-32">
+            {children}
           <MyDock />
+          </div>
         </ThemeProvider>
       </body>
     </html>
