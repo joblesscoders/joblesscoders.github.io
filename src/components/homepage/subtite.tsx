@@ -66,7 +66,7 @@ const TypewriterEffectSmooth: FC<TypewriterEffectSmoothProps> = ({
         transition={{ duration: 2, ease: "linear", delay: 0.5 }}
       >
         <div
-          className="text-xs sm:text-base md:text-lg lg:text-xl xl:text-4xl font-bold"
+          className="text-xl sm:text-base md:text-lg lg:text-xl xl:text-4xl font-bold"
           style={{ whiteSpace: "nowrap" }}
         >
           {renderWords()}
@@ -81,7 +81,7 @@ const TypewriterEffectSmooth: FC<TypewriterEffectSmoothProps> = ({
           repeatType: "reverse",
         }}
         className={cn(
-          "block rounded-sm w-[4px] h-4 sm:h-6 xl:h-12 bg-blue-500",
+          "block rounded-sm w-[4px] h-7 sm:h-8 xl:h-12 bg-blue-500",
           cursorClassName
         )}
       ></motion.span>
@@ -149,7 +149,7 @@ const Subtitle: FC = () => {
       <motion.div key={currentIndex}>
         <TypewriterEffectSmooth
           words={sentences[currentIndex]}
-          className="text-xl xs:text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold text-center mb-4"
+          className="text-2xl xs:text-3xl sm:text-4xl md:text-2xl lg:text-3xl font-semibold text-center mb-4"
         />
       </motion.div>
     </AnimatePresence>

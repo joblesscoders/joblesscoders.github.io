@@ -36,7 +36,7 @@ export default function RootLayout({
       <body className={`${poppins.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <MyNavbar />
-          <div className="pt-32">
+          <div className="mt-20 md:pt-32">
             {children}
           <MyDock />
           </div>
