@@ -64,11 +64,10 @@ export default function page() {
       icon_dark: "github.svg",
       icon_light: "",
     },
-   
   ];
 
   const techIcons_2 = [
-     {
+    {
       name: "AWS",
       icon_dark: "aws.svg",
       icon_light: "",
@@ -113,12 +112,15 @@ export default function page() {
       icon_dark: "Django.svg",
       icon_light: "",
     },
-  ]
+  ];
 
   return (
-    <div className="space-y-8">
-      <TechStack techIcons={techIcons_1} />
-      <TechStack techIcons={techIcons_2} rotate={true}/>
+    <div className="container py-20 flex flex-col items-center justify-center space-y-6">
+      <div className="space-y-8">
+        <TechStack techIcons={techIcons_1} />
+        <TechStack techIcons={techIcons_2} rotate={true} />
+      </div>
+
     </div>
   );
 }
