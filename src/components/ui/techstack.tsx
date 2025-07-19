@@ -18,7 +18,7 @@ export default function TechStack({techIcons = [], rotate = false}: PageProps) {
   const duplicateCount = 5; // Number of times to duplicate the array
 
   return (
-    <div className="relative w-full py-1 overflow-hidden">
+    <div className="relative w-max py-1 overflow-hidden">
       <motion.div
         className="flex whitespace-nowrap"
         animate={{

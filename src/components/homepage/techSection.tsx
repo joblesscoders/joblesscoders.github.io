@@ -127,9 +127,9 @@ export default function TechSection() {
   ];
 
   return (
-    <div className="mx-auto py-20 flex flex-col items-center justify-center space-y-6">
+    <div className="flex flex-col items-center justify-center space-y-6">
       <TypewriterEffectSmooth words={words} />
-      <div className="space-y-2">
+      <div className="max-w-full mx-auto flex flex-wrap items-center justify-center gap-4">
         <TechStack techIcons={techIcons_1} />
         <TechStack techIcons={techIcons_2} rotate={true} />
       </div>
