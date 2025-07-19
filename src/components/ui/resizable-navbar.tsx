@@ -378,7 +378,7 @@ export const NavbarLogo = () => {
           // Render full logo text by default
           <div className="font-bitcount-normal font-light">
             <span className="text-violet-500">{'<'}</span>Jobless{' '}
-            <span className="text-red-400 ">
+            <span className="text-red-400">
               Coders<span className="text-violet-500">{'/>'}</span>
             </span>
           </div>

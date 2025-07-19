@@ -1,5 +1,7 @@
 import React from "react";
 import TechStack from "@/components/ui/techstack";
+import { Type } from "lucide-react";
+import { TypewriterEffectSmooth } from "../ui/type-writer";
 
 export default function TechSection() {
   const techIcons_1 = [
@@ -64,11 +66,10 @@ export default function TechSection() {
       icon_dark: "github.svg",
       icon_light: "",
     },
-   
   ];
 
   const techIcons_2 = [
-     {
+    {
       name: "AWS",
       icon_dark: "aws.svg",
       icon_light: "",
@@ -113,12 +114,25 @@ export default function TechSection() {
       icon_dark: "Django.svg",
       icon_light: "",
     },
-  ]
+  ];
+
+  const words = [
+    {
+      text: "Tech"
+    },
+    {
+      text: "Stack",
+      className: "text-blue-500",
+    },
+  ];
 
   return (
-    <div className="space-y-8">
-      <TechStack techIcons={techIcons_1} />
-      <TechStack techIcons={techIcons_2} rotate={true}/>
+    <div className="mx-auto py-20 flex flex-col items-center justify-center space-y-6">
+      <TypewriterEffectSmooth words={words} />
+      <div className="space-y-2">
+        <TechStack techIcons={techIcons_1} />
+        <TechStack techIcons={techIcons_2} rotate={true} />
+      </div>
     </div>
   );
 }
