@@ -1,7 +1,7 @@
 import React from "react";
 import TechStack from "@/components/ui/techstack";
 
-export default function page() {
+export default function TechSection() {
   const techIcons_1 = [
     {
       name: "HTML5",

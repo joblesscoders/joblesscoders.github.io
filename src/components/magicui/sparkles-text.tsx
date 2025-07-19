@@ -130,7 +130,7 @@ export const SparklesText: React.FC<SparklesTextProps> = ({
 
   return (
     <div
-      className={cn("text-5xl xs:text-5xl sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl font-bold", className)}
+      className={cn("text-4xl xs:text-4xl sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl text-zinc-700 dark:text-white", className)}
       {...props}
       style={
         {
@@ -139,7 +139,7 @@ export const SparklesText: React.FC<SparklesTextProps> = ({
         } as CSSProperties
       }
     >
-      <span className="relative inline-block">
+      <span className="relative inline-block font-bitcount-normal font-light">
         {sparkles.map((sparkle) => (
           <Sparkle key={sparkle.id} {...sparkle} />
         ))}

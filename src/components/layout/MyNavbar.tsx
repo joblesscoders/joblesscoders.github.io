@@ -145,9 +145,9 @@ export default function MyNavbar() {
             {/* Features Section */}
             <div>
               <h3 className="font-semibold text-neutral-800 dark:text-neutral-200 mb-2">
-                Features
+                About Us
               </h3>
-              <div className="pl-4 space-y-2">
+              {/* <div className="pl-4 space-y-2">
                 <a
                   href="#analytics"
                   className="block text-neutral-600 dark:text-neutral-300"
@@ -166,15 +166,15 @@ export default function MyNavbar() {
                 >
                   Integrations
                 </a>
-              </div>
+              </div> */}
             </div>
 
             {/* Products Section */}
             <div>
               <h3 className="font-semibold text-neutral-800 dark:text-neutral-200 mb-2">
-                Products
+                Blog
               </h3>
-              <div className="pl-4 space-y-2">
+              {/* <div className="pl-4 space-y-2">
                 <a
                   href="#saas"
                   className="block text-neutral-600 dark:text-neutral-300"
@@ -193,7 +193,7 @@ export default function MyNavbar() {
                 >
                   Developer API
                 </a>
-              </div>
+              </div> */}
             </div>
 
             {/* Simple links */}
@@ -201,15 +201,15 @@ export default function MyNavbar() {
               href="#pricing"
               className="text-neutral-600 dark:text-neutral-300 font-medium"
             >
-              Pricing
+              Careers
             </a>
 
             {/* Resources Section */}
             <div>
               <h3 className="font-semibold text-neutral-800 dark:text-neutral-200 mb-2">
-                Resources
+                Pricing
               </h3>
-              <div className="pl-4 space-y-2">
+              {/* <div className="pl-4 space-y-2">
                 <a
                   href="#documentation"
                   className="block text-neutral-600 dark:text-neutral-300"
@@ -234,7 +234,7 @@ export default function MyNavbar() {
                 >
                   Support Center
                 </a>
-              </div>
+              </div> */}
             </div>
 
             <a

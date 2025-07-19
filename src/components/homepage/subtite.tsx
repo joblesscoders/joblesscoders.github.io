@@ -149,7 +149,7 @@ const Subtitle: FC = () => {
       <motion.div key={currentIndex}>
         <TypewriterEffectSmooth
           words={sentences[currentIndex]}
-          className="text-2xl xs:text-3xl sm:text-4xl md:text-2xl lg:text-3xl font-semibold text-center mb-4"
+          className="text-2xl xs:text-3xl sm:text-4xl md:text-2xl lg:text-3xl font-semibold text-center mb-4 font-arima pointer-events-none"
         />
       </motion.div>
     </AnimatePresence>

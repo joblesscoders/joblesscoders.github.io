@@ -1,7 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Arima:wght@100..700&family=Bitcount+Grid+Single:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+VN+Guides&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitcount:wght@100..900&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
+.font-arima {
+  font-family: 'Arima', system-ui, sans-serif;
+}
+
+.font-bitcount {
+  font-family: 'Bitcount Grid Single', monospace;
+}
+
+.font-bitcount-normal {
+  font-family: 'Bitcount', monospace;
+}
+
+.font-playwrite {
+  font-family: 'Playwrite VN Guides', sans-serif, cursive;
+}
+
+.font-handless {
+  font-family: 'Handlee', cursive;
+  font-variant-ligatures: common-ligatures;
+  font-variant-ligatures: common-ligatures discretionary-ligatures;
+}
+
 
 @theme inline {
   --color-background: var(--background);
@@ -118,7 +146,7 @@
   --gradient-end: oklch(0.05 0.0269 296.44);
   /* Aurora Gradients for Dark Mode */
   --aurora-color-1: oklch(18.106% 0.00162 197.716); 
-  --aurora-color-2: oklch(29.388% 0.02914 192.193 / 0.984); 
+  --aurora-color-2: oklch(42.196% 0.11568 263.372 / 0.709); 
   --aurora-color-3: oklch(0% 0 0); 
 }
 
@@ -137,9 +165,9 @@
         /* url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="a" x="0" y="0" width="100%" height="100%"><feTurbulence baseFrequency="0.8" numOctaves="1" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter><rect width="100%" height="100%" filter="url(%23a)"/></svg>'), */
 
         /* Color Blobs */
-        radial-gradient(circle at 85% 25%, var(--aurora-color-1), transparent 60%),
-        radial-gradient(circle at 20% 45%, var(--aurora-color-2), transparent 50%),
-        radial-gradient(circle at 25% 90%, var(--aurora-color-3), transparent 40%),
+        radial-gradient(circle at 10% -50%, var(--aurora-color-2), transparent 60%),
+        radial-gradient(circle at 40% -50%, var(--aurora-color-2), transparent 50%),
+        radial-gradient(circle at 75% -50%, var(--aurora-color-2), transparent 40%),
         radial-gradient(circle at 75% 85%, var(--aurora-color-1), transparent 40%);
   }
 }

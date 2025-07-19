@@ -6,13 +6,26 @@ import {
   AnimatePresence,
   useScroll,
   useMotionValueEvent,
-} from "motion/react";
+} from "framer-motion";
 import Image from "next/image";
 import logo from "@/../public/assets/Jobless_coders_colored.png";
 
-import React, { useRef, useState } from "react";
+import React, { 
+    useRef, 
+    useState, 
+    createContext, // Added for context
+    useContext      // Added for context
+} from "react";
 
-// Original interfaces
+// --- Context for Navbar Visibility ---
+// This context is created to avoid "prop drilling". It allows any component
+// within the Navbar tree to access the `visible` state without it being
+// passed down manually through each component.
+const NavbarContext = createContext<{ visible: boolean }>({ visible: false });
+
+
+// --- Component Interfaces ---
+
 interface NavbarProps {
   children: React.ReactNode;
   className?: string;
@@ -42,7 +55,6 @@ interface MobileNavMenuProps {
   onClose: () => void;
 }
 
-// Enhanced interfaces for mega menu
 interface NavItemsProps {
   items: {
     name: string;
@@ -62,6 +74,7 @@ interface MegaMenuItemProps {
   onItemClick?: () => void;
 }
 
+// --- Animation Transition Settings ---
 const transition = {
   type: "spring" as const,
   mass: 0.5,
@@ -71,6 +84,7 @@ const transition = {
   restSpeed: 0.001,
 };
 
+// --- Main Navbar Component ---
 export const Navbar = ({ children, className }: NavbarProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll({
@@ -79,31 +93,34 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   });
   const [visible, setVisible] = useState<boolean>(false);
 
+  // This hook listens to scroll changes and updates the `visible` state.
+  // When the user scrolls more than 100px, the navbar becomes "visible" (shrunken).
   useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 100) {
-      setVisible(true);
-    } else {
-      setVisible(false);
-    }
+    setVisible(latest > 100);
   });
 
+  // The NavbarContext.Provider wraps the children, making the `visible`
+  // state available to all descendant components, like NavbarLogo.
   return (
-    <motion.div
-      ref={ref}
-      className={cn("sticky inset-x-0 top-5 z-40 w-full", className)}
-    >
-      {React.Children.map(children, (child) =>
-        React.isValidElement(child)
-          ? React.cloneElement(
-              child as React.ReactElement<{ visible?: boolean }>,
-              { visible },
-            )
-          : child,
-      )}
-    </motion.div>
+    <NavbarContext.Provider value={{ visible }}>
+      <motion.div
+        ref={ref}
+        className={cn("sticky inset-x-0 top-5 z-40 w-full", className)}
+      >
+        {React.Children.map(children, (child) =>
+          React.isValidElement(child)
+            ? React.cloneElement(
+                child as React.ReactElement<{ visible?: boolean }>,
+                { visible },
+              )
+            : child,
+        )}
+      </motion.div>
+    </NavbarContext.Provider>
   );
 };
 
+// --- Desktop Navbar Body ---
 export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   return (
     <motion.div
@@ -134,7 +151,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   );
 };
 
-// Enhanced MegaMenuItem component
+// --- Mega Menu Item ---
 export const MegaMenuItem = ({ 
   setActive, 
   active, 
@@ -199,7 +216,7 @@ export const MegaMenuItem = ({
   );
 };
 
-// Enhanced NavItems component with mega menu support
+// --- Desktop Navigation Items ---
 export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const [active, setActive] = useState<string | null>(null);
@@ -242,6 +259,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   );
 };
 
+// --- Mobile Navigation Container ---
 export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
   return (
     <motion.div
@@ -272,6 +290,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
   );
 };
 
+// --- Mobile Navigation Header ---
 export const MobileNavHeader = ({
   children,
   className,
@@ -288,6 +307,7 @@ export const MobileNavHeader = ({
   );
 };
 
+// --- Mobile Navigation Menu ---
 export const MobileNavMenu = ({
   children,
   className,
@@ -313,6 +333,7 @@ export const MobileNavMenu = ({
   );
 };
 
+// --- Mobile Navigation Toggle Button ---
 export const MobileNavToggle = ({
   isOpen,
   onClick,
@@ -327,11 +348,16 @@ export const MobileNavToggle = ({
   );
 };
 
+// --- Navbar Logo (Updated) ---
 export const NavbarLogo = () => {
+  // Use the `useContext` hook to access the `visible` state from the
+  // NavbarContext.
+  const { visible } = useContext(NavbarContext);
+
   return (
     <a
       href="#"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-light"
     >
       <Image
         src={logo}
@@ -340,11 +366,29 @@ export const NavbarLogo = () => {
         width={30}
         height={30}
       />
-      <span className="font-medium text-lg text-black dark:text-white">Jobless <span className="text-red-400 ">Coders</span></span>
+      {/* Conditionally render the logo text based on the `visible` state. */}
+      <span className="font-medium text-lg text-black dark:text-white">
+        {visible ? (
+          // Render abbreviated logo when navbar is shrunken
+          <div className="font-bitcount-normal font-light">
+            <span className="text-violet-500">{'<'}</span>J<span className="text-red-400">C</span>
+            <span className="text-violet-500">{'/>'}</span>
+          </div>
+        ) : (
+          // Render full logo text by default
+          <div className="font-bitcount-normal font-light">
+            <span className="text-violet-500">{'<'}</span>Jobless{' '}
+            <span className="text-red-400 ">
+              Coders<span className="text-violet-500">{'/>'}</span>
+            </span>
+          </div>
+        )}
+      </span>
     </a>
   );
 };
 
+// --- Generic Navbar Button ---
 export const NavbarButton = ({
   href,
   as: Tag = "a",
@@ -385,7 +429,7 @@ export const NavbarButton = ({
   );
 };
 
-// Helper components for mega menu content
+// --- Helper Components for Mega Menu Content ---
 export const ProductItem = ({
   title,
   description,
