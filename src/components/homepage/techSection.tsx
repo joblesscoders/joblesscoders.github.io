@@ -1,7 +1,5 @@
 import React from "react";
 import TechStack from "@/components/ui/techstack";
-import { Type } from "lucide-react";
-import { TypewriterEffectSmooth } from "../ui/type-writer";
 
 export default function TechSection() {
   const techIcons_1 = [
@@ -113,16 +111,6 @@ export default function TechSection() {
       name: "Django",
       icon_dark: "Django.svg",
       icon_light: "",
-    },
-  ];
-
-  const words = [
-    {
-      text: "Tech"
-    },
-    {
-      text: "Stack",
-      className: "text-blue-500",
     },
   ];
 
