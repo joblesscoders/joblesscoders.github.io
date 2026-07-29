@@ -72,17 +72,17 @@ const DATA = {
     social: {
       GitHub: {
         name: "GitHub",
-        url: "#",
+        url: "https://github.com/joblesscoders",
         icon: Icons.github,
       },
       X: {
         name: "X",
-        url: "#",
+        url: "https://x.com/your_gumpy",
         icon: Icons.x,
       },
       email: {
         name: "Send Email",
-        url: "#",
+        url: "mailto:joblesscodersbd@gmail.com",
         icon: Icons.email,
       },
     },
@@ -133,6 +133,8 @@ export default function MyDock() {
                   <Link
                     href={social.url}
                     aria-label={social.name}
+                    target={social.url.startsWith("http") ? "_blank" : undefined}
+                    rel={social.url.startsWith("http") ? "noopener noreferrer" : undefined}
                     className={cn(
                       buttonVariants({ variant: "ghost", size: "icon" }),
                       "size-12 rounded-full",

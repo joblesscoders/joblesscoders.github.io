@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import MyDock from "@/components/layout/MyDock";
 import MyNavbar from "@/components/layout/MyNavbar";
+import Footer from "@/components/layout/Footer";
 import Script from 'next/script';
 import Analytics from "@/components/Analytics";
 
@@ -64,8 +65,10 @@ export default function RootLayout({
             {children}
           <MyDock />
           </div>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
   );
 }
+

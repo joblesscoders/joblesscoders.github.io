@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
+import { cn, smoothScrollTo } from "@/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
   motion,
@@ -160,7 +160,11 @@ export const MegaMenuItem = ({
   children, 
   onItemClick 
 }: MegaMenuItemProps) => {
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (link && link.startsWith("#")) {
+      e.preventDefault();
+      smoothScrollTo(link, 1000);
+    }
     if (onItemClick) {
       onItemClick();
     }
@@ -312,7 +316,6 @@ export const MobileNavMenu = ({
   children,
   className,
   isOpen,
-  onClose,
 }: MobileNavMenuProps) => {
   return (
     <AnimatePresence>
@@ -354,10 +357,16 @@ export const NavbarLogo = () => {
   // NavbarContext.
   const { visible } = useContext(NavbarContext);
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    smoothScrollTo("#", 1000);
+  };
+
   return (
     <a
       href="#"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-light"
+      onClick={handleLogoClick}
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-light cursor-pointer"
     >
       <Image
         src={logo}
@@ -418,11 +427,21 @@ export const NavbarButton = ({
       "bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
   };
 
+  const handleButtonClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (props.onClick) {
+      (props.onClick as (e: React.MouseEvent<HTMLElement>) => void)(e);
+    } else if (href && href.startsWith("#")) {
+      e.preventDefault();
+      smoothScrollTo(href, 1000);
+    }
+  };
+
   return (
     <Tag
       href={href || undefined}
       className={cn(baseStyles, variantStyles[variant], className)}
       {...props}
+      onClick={handleButtonClick}
     >
       {children}
     </Tag>

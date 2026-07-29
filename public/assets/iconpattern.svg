@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <style>
+      .icon { fill: none; stroke: #ffffff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </defs>
+  <!-- Row 1 -->
+  <g transform="translate(30, 30)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.6"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.6"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.6"/>
+  </g>
+  <g transform="translate(130, 50)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.4"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.4"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.4"/>
+  </g>
+  <g transform="translate(250, 20)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.7"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.7"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.7"/>
+  </g>
+  <g transform="translate(340, 60)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.3"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.3"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.3"/>
+  </g>
+  <!-- Row 2 -->
+  <g transform="translate(80, 120)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.5"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.5"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.5"/>
+  </g>
+  <g transform="translate(200, 100)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.8"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.8"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.8"/>
+  </g>
+  <g transform="translate(320, 140)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.45"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.45"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.45"/>
+  </g>
+  <!-- Row 3 -->
+  <g transform="translate(20, 200)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.35"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.35"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.35"/>
+  </g>
+  <g transform="translate(150, 220)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.65"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.65"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.65"/>
+  </g>
+  <g transform="translate(280, 200)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.5"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.5"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.5"/>
+  </g>
+  <!-- Row 4 -->
+  <g transform="translate(60, 300)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.7"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.7"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.7"/>
+  </g>
+  <g transform="translate(180, 320)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.4"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.4"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.4"/>
+  </g>
+  <g transform="translate(310, 290)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.6"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.6"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.6"/>
+  </g>
+  <!-- Row 5 -->
+  <g transform="translate(10, 370)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.45"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.45"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.45"/>
+  </g>
+  <g transform="translate(120, 380)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.55"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.55"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.55"/>
+  </g>
+  <g transform="translate(260, 360)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.75"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.75"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.75"/>
+  </g>
+  <g transform="translate(360, 350)">
+    <path class="icon" d="M8 18l-6 6 6 6" opacity="0.3"/>
+    <path class="icon" d="M18 18l6 6-6 6" opacity="0.3"/>
+    <path class="icon" d="M15 16l-4 16" opacity="0.3"/>
+  </g>
+</svg>
