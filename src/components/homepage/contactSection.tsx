@@ -15,6 +15,7 @@ import {
   AtSign,
   Tag,
   FileText,
+  Loader2,
 } from "lucide-react";
 
 const TOPIC_SUGGESTIONS = [
@@ -32,8 +33,8 @@ const CONTACT_INFO = [
   {
     icon: Mail,
     label: "Email",
-    value: "joblesscoders@gmail.com",
-    href: "mailto:joblesscoders@gmail.com",
+    value: "joblesscodersbd@gmail.com",
+    href: "mailto:joblesscodersbd@gmail.com",
   },
   {
     icon: MapPin,
@@ -120,14 +121,79 @@ export default function ContactSection() {
   });
   const [topicOpen, setTopicOpen] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const topicRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim()) return;
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+    if (!form.name.trim() || !form.message.trim()) return;
+
+    setLoading(true);
+    setErrorMsg(null);
+
+    try {
+      let res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) {
+        res = await fetch("https://formsubmit.co/ajax/joblesscodersbd@gmail.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email || "No email provided",
+            topic: form.topic || "General Inquiry",
+            message: form.message,
+            _subject: `[Jobless Coders] ${form.topic || "New Message"} from ${form.name}`,
+            _template: "table",
+          }),
+        });
+      }
+
+      if (res.ok) {
+        setSubmitted(true);
+        setForm({ name: "", email: "", topic: "", message: "" });
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg(data.error || data.message || "Failed to send message. Please try again.");
+      }
+    } catch {
+      try {
+        const backupRes = await fetch("https://formsubmit.co/ajax/joblesscodersbd@gmail.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email || "No email provided",
+            topic: form.topic || "General Inquiry",
+            message: form.message,
+            _subject: `[Jobless Coders] ${form.topic || "New Message"} from ${form.name}`,
+          }),
+        });
+
+        if (backupRes.ok) {
+          setSubmitted(true);
+          setForm({ name: "", email: "", topic: "", message: "" });
+        } else {
+          setErrorMsg("Failed to send message. Please email us directly at joblesscodersbd@gmail.com.");
+        }
+      } catch {
+        setErrorMsg("Network error. Please email us directly at joblesscodersbd@gmail.com.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (field: keyof FormState, value: string) => {
@@ -141,17 +207,6 @@ export default function ContactSection() {
 
       {/* Section Header */}
       <div className="text-center mb-16 relative z-10">
-        {/* <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-semibold uppercase tracking-wider mb-4"
-        >
-          <Mail className="w-3.5 h-3.5 text-violet-400" />
-          Get In Touch
-        </motion.div> */}
-
         <motion.h2
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -288,9 +343,15 @@ export default function ContactSection() {
                     <Check className="w-7 h-7 text-emerald-400" />
                   </motion.div>
                   <h3 className="text-xl font-bold text-white mb-2">Message Sent!</h3>
-                  <p className="text-neutral-400 text-sm max-w-xs">
-                    Thanks for reaching out, {form.name.split(" ")[0]}. We&apos;ll get back to you within 24 hours.
+                  <p className="text-neutral-400 text-sm max-w-xs mb-6">
+                    Thanks for reaching out! We&apos;ve sent your message to <span className="text-violet-400">joblesscodersbd@gmail.com</span>.
                   </p>
+                  <button
+                    onClick={() => setSubmitted(false)}
+                    className="text-xs text-violet-400 hover:underline cursor-pointer"
+                  >
+                    Send another message
+                  </button>
                 </motion.div>
               ) : (
                 <motion.form
@@ -420,6 +481,7 @@ export default function ContactSection() {
                     <label htmlFor="contact-message" className="flex items-center gap-1.5 text-sm font-medium text-neutral-300">
                       <FileText className="w-3.5 h-3.5 text-neutral-500" />
                       Message
+                      <span className="text-rose-400">*</span>
                     </label>
                     <div className={`relative rounded-xl border transition-all duration-300 ${
                       focusedField === "message"
@@ -428,6 +490,7 @@ export default function ContactSection() {
                     }`}>
                       <textarea
                         id="contact-message"
+                        required
                         rows={5}
                         placeholder="Tell us about your project, idea, or question..."
                         value={form.message}
@@ -442,22 +505,33 @@ export default function ContactSection() {
                     </p>
                   </div>
 
+                  {errorMsg && (
+                    <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs text-center">
+                      {errorMsg}
+                    </div>
+                  )}
+
                   {/* Submit Button */}
                   <motion.button
                     type="submit"
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="group relative w-full flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-violet-600/20 hover:shadow-violet-500/30 overflow-hidden cursor-pointer"
+                    disabled={loading}
+                    whileHover={loading ? {} : { scale: 1.01 }}
+                    whileTap={loading ? {} : { scale: 0.98 }}
+                    className="group relative w-full flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-60 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-violet-600/20 hover:shadow-violet-500/30 overflow-hidden cursor-pointer"
                   >
                     {/* Shimmer effect */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                    <Send className="w-4 h-4 relative z-10" />
-                    <span className="relative z-10">Send Message</span>
+                    {loading ? (
+                      <Loader2 className="w-4 h-4 animate-spin relative z-10" />
+                    ) : (
+                      <Send className="w-4 h-4 relative z-10" />
+                    )}
+                    <span className="relative z-10">{loading ? "Sending..." : "Send Message"}</span>
                   </motion.button>
 
                   {/* Privacy note */}
                   <p className="text-xs text-neutral-600 text-center">
-                    Your message is private. We&apos;ll never share your information.
+                    Your message is sent directly to joblesscodersbd@gmail.com.
                   </p>
                 </motion.form>
               )}
