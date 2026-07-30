@@ -20,7 +20,7 @@ const teamMembers: TeamMember[] = [
     title: "Team Lead, Full-Stack & DevOps",
     handle: "gumpy",
     status: "Online",
-    avatarUrl: "/assets/teams/asif-bhuiyan-shawon.png",
+    avatarUrl: "/assets/teams/asif-bhuiyan-shawon.webp",
     innerGradient:
       "linear-gradient(145deg, rgba(99, 102, 241, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(99, 102, 241, 0.55)",
@@ -30,7 +30,7 @@ const teamMembers: TeamMember[] = [
     title: "Backend Lead & AI Engineer",
     handle: "jonsnow",
     status: "Online",
-    avatarUrl: "/assets/teams/tousif-muhaimine.png",
+    avatarUrl: "/assets/teams/tousif-muhaimine.webp",
     innerGradient:
       "linear-gradient(145deg, rgba(16, 185, 129, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(16, 185, 129, 0.55)",
@@ -40,7 +40,7 @@ const teamMembers: TeamMember[] = [
     title: "Data Analyst & Cloud Engineer",
     handle: "son1cleo",
     status: "Online",
-    avatarUrl: "/assets/teams/midhat-ratib-khan.png",
+    avatarUrl: "/assets/teams/midhat-ratib-khan.webp",
     innerGradient:
       "linear-gradient(145deg, rgba(245, 158, 11, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(245, 158, 11, 0.55)",
@@ -50,7 +50,7 @@ const teamMembers: TeamMember[] = [
     title: "Data & System Engineer",
     handle: "unknownat",
     status: "Online",
-    avatarUrl: "/assets/teams/shafkat-sharif-bhuiyan.png",
+    avatarUrl: "/assets/teams/shafkat-sharif-bhuiyan.webp",
     innerGradient:
       "linear-gradient(145deg, rgba(239, 68, 68, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(239, 68, 68, 0.55)",
@@ -60,7 +60,7 @@ const teamMembers: TeamMember[] = [
     title: "Frontend Lead",
     handle: "sezr",
     status: "Online",
-    avatarUrl: "/assets/teams/rafi-haque.png",
+    avatarUrl: "/assets/teams/rafi-haque.webp",
     innerGradient:
       "linear-gradient(145deg, rgba(6, 182, 212, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(6, 182, 212, 0.55)",
@@ -70,7 +70,7 @@ const teamMembers: TeamMember[] = [
     title: "Cyber Security Lead",
     handle: "zuan15",
     status: "Online",
-    avatarUrl: "/assets/teams/zarif-zoha.png",
+    avatarUrl: "/assets/teams/zarif-zoha.webp",
     innerGradient:
       "linear-gradient(145deg, rgba(236, 72, 153, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(236, 72, 153, 0.55)",
