@@ -18,10 +18,9 @@ const teamMembers: TeamMember[] = [
   {
     name: "Asif Bhuiyan Shawon",
     title: "Team Lead, Full-Stack & DevOps",
-    handle: "shawon",
+    handle: "gumpy",
     status: "Online",
-    avatarUrl:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80",
+    avatarUrl: "/assets/teams/asif-bhuiyan-shawon.png",
     innerGradient:
       "linear-gradient(145deg, rgba(99, 102, 241, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(99, 102, 241, 0.55)",
@@ -29,10 +28,9 @@ const teamMembers: TeamMember[] = [
   {
     name: "Tousif Muhaimine",
     title: "Backend Lead & AI Engineer",
-    handle: "tousif",
+    handle: "jonsnow",
     status: "Online",
-    avatarUrl:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&auto=format&fit=crop&q=80",
+    avatarUrl: "/assets/teams/tousif-muhaimine.png",
     innerGradient:
       "linear-gradient(145deg, rgba(16, 185, 129, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(16, 185, 129, 0.55)",
@@ -40,10 +38,9 @@ const teamMembers: TeamMember[] = [
   {
     name: "Midhat Ratib Khan",
     title: "Data Analyst & Cloud Engineer",
-    handle: "ratib",
+    handle: "son1cleo",
     status: "Online",
-    avatarUrl:
-      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&auto=format&fit=crop&q=80",
+    avatarUrl: "/assets/teams/midhat-ratib-khan.png",
     innerGradient:
       "linear-gradient(145deg, rgba(245, 158, 11, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(245, 158, 11, 0.55)",
@@ -51,10 +48,9 @@ const teamMembers: TeamMember[] = [
   {
     name: "Shafkat Sharif Bhuiyan",
     title: "Data & System Engineer",
-    handle: "shafkat",
+    handle: "unknownat",
     status: "Online",
-    avatarUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&auto=format&fit=crop&q=80",
+    avatarUrl: "/assets/teams/shafkat-sharif-bhuiyan.png",
     innerGradient:
       "linear-gradient(145deg, rgba(239, 68, 68, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(239, 68, 68, 0.55)",
@@ -62,10 +58,9 @@ const teamMembers: TeamMember[] = [
   {
     name: "Rafi Haque",
     title: "Frontend Lead",
-    handle: "rafi",
+    handle: "sezr",
     status: "Online",
-    avatarUrl:
-      "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&auto=format&fit=crop&q=80",
+    avatarUrl: "/assets/teams/rafi-haque.png",
     innerGradient:
       "linear-gradient(145deg, rgba(6, 182, 212, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(6, 182, 212, 0.55)",
@@ -73,10 +68,9 @@ const teamMembers: TeamMember[] = [
   {
     name: "Zarif Zoha",
     title: "Cyber Security Lead",
-    handle: "zarif",
+    handle: "zuan15",
     status: "Online",
-    avatarUrl:
-      "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=600&auto=format&fit=crop&q=80",
+    avatarUrl: "/assets/teams/zarif-zoha.png",
     innerGradient:
       "linear-gradient(145deg, rgba(236, 72, 153, 0.35) 0%, rgba(15, 15, 22, 0.95) 100%)",
     behindGlowColor: "rgba(236, 72, 153, 0.55)",
