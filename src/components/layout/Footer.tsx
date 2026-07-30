@@ -2,13 +2,14 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import logo from "@/../public/assets/Jobless_coders_colored.png";
 
 const FOOTER_LINKS = [
   {
     title: "Pages",
     links: [
-      { label: "Home", href: "#" },
+      { label: "Home", href: "/" },
       { label: "About Us", href: "#about" },
       { label: "Team", href: "#team" },
       { label: "Contact", href: "#contact" },
@@ -54,7 +55,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-6 gap-10 lg:gap-8">
           {/* Logo + Copyright */}
           <div className="lg:col-span-2">
-            <a href="#" className="inline-flex items-center gap-2.5 mb-4 group">
+            <Link href="/" className="inline-flex items-center gap-2.5 mb-4 group">
               <Image
                 src={logo}
                 alt="Jobless Coders logo"
@@ -69,7 +70,7 @@ export default function Footer() {
                   Coders<span className="text-violet-500">{"/>"}</span>
                 </span>
               </span>
-            </a>
+            </Link>
             <p className="text-sm text-neutral-500 leading-relaxed max-w-xs">
               © {new Date().getFullYear()} Jobless Coders. All rights reserved.
             </p>

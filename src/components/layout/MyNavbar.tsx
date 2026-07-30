@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { usePathname } from "next/navigation";
 import { smoothScrollTo } from "@/lib/utils";
 
 import {
@@ -16,22 +17,28 @@ import {
 
 export default function MyNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  // On the homepage these resolve to in-page anchors with a smooth-scroll
+  // animation; on any other route they become real links back to "/#section"
+  // so navigation still works instead of silently doing nothing.
+  const prefix = isHome ? "" : "/";
 
-  // Define nav items
   const navItems = [
     {
       name: "About Us",
-      link: "#about",
+      link: `${prefix}#about`,
     },
     {
       name: "Team",
-      link: "#team",
+      link: `${prefix}#team`,
     },
   ];
 
   const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
     setIsMobileMenuOpen(false);
+    if (!isHome) return;
+    e.preventDefault();
     smoothScrollTo(targetId, 1000);
   };
 
@@ -42,7 +49,7 @@ export default function MyNavbar() {
         <NavbarLogo />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
-          <NavbarButton variant="primary" href="#contact">
+          <NavbarButton variant="primary" href={`${prefix}#contact`}>
             Contact
           </NavbarButton>
         </div>
@@ -65,14 +72,14 @@ export default function MyNavbar() {
           {/* Mobile menu items */}
           <div className="flex flex-col space-y-4 w-full">
             <a
-              href="#about"
+              href={`${prefix}#about`}
               onClick={(e) => handleMobileNavClick(e, "#about")}
               className="text-neutral-600 dark:text-neutral-300 font-medium hover:text-white transition-colors cursor-pointer"
             >
               About Us
             </a>
             <a
-              href="#team"
+              href={`${prefix}#team`}
               onClick={(e) => handleMobileNavClick(e, "#team")}
               className="text-neutral-600 dark:text-neutral-300 font-medium hover:text-white transition-colors cursor-pointer"
             >
@@ -85,9 +92,9 @@ export default function MyNavbar() {
             <NavbarButton
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                smoothScrollTo("#contact", 1000);
+                if (isHome) smoothScrollTo("#contact", 1000);
               }}
-              href="#contact"
+              href={`${prefix}#contact`}
               variant="primary"
               className="w-full"
             >

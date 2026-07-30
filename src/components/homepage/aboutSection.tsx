@@ -413,7 +413,7 @@ export default function AboutSection() {
               <div>
                 <div className="flex items-center gap-1.5 font-mono text-lg font-bold">
                   <span className="text-violet-400">{"<"}</span>
-                  <span className="text-white">JoblessCoders</span>
+                  <span className="text-white">Jobless <span className="text-red-400">Coders</span></span>
                   <span className="text-violet-400">{" />"}</span>
                 </div>
                 <p className="text-xs text-neutral-400">

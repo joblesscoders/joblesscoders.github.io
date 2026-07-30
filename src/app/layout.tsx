@@ -7,6 +7,8 @@ import MyNavbar from "@/components/layout/MyNavbar";
 import Footer from "@/components/layout/Footer";
 import Script from 'next/script';
 import Analytics from "@/components/Analytics";
+import StructuredData from "@/components/StructuredData";
+import { siteConfig } from "@/lib/site-config";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -15,17 +17,46 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "JoblessCodersBD | Web Development Services",
-  description: "Professional web development services by JoblessCodersBD. Build modern, responsive, and scalable websites with us.",
-  keywords: ["JoblessCodersBD", "web development", "next.js", "frontend", "freelance devs", "Bangladesh", "programming services"],
-  authors: [{ name: "JoblessCodersBD Team" }],
-  robots: "index, follow",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} | Web, Mobile, AI & Cloud Engineering`,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: `${siteConfig.name} Team`, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/assets/Jobless_coders_colored.png",
+  },
   openGraph: {
-    title: "JoblessCodersBD | Web Development Services",
-    description: "We craft modern websites and applications for businesses and startups.",
-    url: "https://joblesscodersbd.com",
-    siteName: "JoblessCodersBD",
+    title: `${siteConfig.name} | Web, Mobile, AI & Cloud Engineering`,
+    description: siteConfig.shortDescription,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} | Web, Mobile, AI & Cloud Engineering`,
+    description: siteConfig.shortDescription,
   },
 };
 
@@ -37,6 +68,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <StructuredData />
         {/* Google Analytics Scripts */}
         <Script
           strategy="afterInteractive"

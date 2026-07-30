@@ -8,6 +8,8 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import logo from "@/../public/assets/Jobless_coders_colored.png";
 
 import React, { 
@@ -356,15 +358,17 @@ export const NavbarLogo = () => {
   // Use the `useContext` hook to access the `visible` state from the
   // NavbarContext.
   const { visible } = useContext(NavbarContext);
+  const isHome = usePathname() === "/";
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isHome) return;
     e.preventDefault();
     smoothScrollTo("#", 1000);
   };
 
   return (
-    <a
-      href="#"
+    <Link
+      href="/"
       onClick={handleLogoClick}
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-light cursor-pointer"
     >
@@ -393,7 +397,7 @@ export const NavbarLogo = () => {
           </div>
         )}
       </span>
-    </a>
+    </Link>
   );
 };
 

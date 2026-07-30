@@ -1,5 +1,10 @@
 import React from "react";
+import type { Metadata } from "next";
 import TechStack from "@/components/ui/techstack";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default function page() {
   const techIcons_1 = [
