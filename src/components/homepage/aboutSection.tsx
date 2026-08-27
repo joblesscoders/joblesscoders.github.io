@@ -36,21 +36,22 @@ const services: ServiceItem[] = [
     id: "web-dev",
     name: "Full-Stack Web Development",
     shortName: "Web Apps",
-    tagline: "Blazing-fast, SEO-optimized, Next-Gen Web Platforms",
+    tagline: "Fast, Accessible, Production-Ready Web Platforms",
     icon: Globe,
     description:
-      "We architect high-concurrency web applications using Next.js 15, React 19, and modern microservices, delivering lightning-fast page load times and flawless UX.",
+      "We architect high-performance web applications using Next.js 15, React 19, and modern TypeScript microservices, prioritizing responsive UX, clean server rendering, and long-term maintainability.",
     features: [
-      "Server-Side Rendering & ISR Strategy",
-      "Custom Micro-animations & Dynamic UI",
-      "Real-time WebSocket & API Integrations",
-      "Lighthouse 100% Core Web Vitals",
+      "Server-Side Rendering & Streaming Strategy",
+      "Component Design Systems & Dynamic UI",
+      "REST & WebSocket API Integrations",
+      "Core Web Vitals & Performance Budgets",
     ],
     techStack: ["Next.js 15", "React 19", "TypeScript", "TailwindCSS", "Node.js"],
-    codeSnippet: `// Next.js App Router API
-export async function GET() {
-  const data = await fetchServices();
-  return Response.json({ status: "200 OK", data });
+    codeSnippet: `// Next.js App Router Server Handler
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const data = await queryServiceRegistry({ env: process.env.NODE_ENV });
+  return Response.json({ status: "ok", data });
 }`,
   },
   {
@@ -60,83 +61,85 @@ export async function GET() {
     tagline: "Cross-Platform Native Mobile Apps for iOS & Android",
     icon: Smartphone,
     description:
-      "Fluid 60fps mobile applications built with React Native and Expo. Seamless offline-first state management, biometric authentication, and native performance.",
+      "Cross-platform mobile applications built with React Native and Expo. Seamless offline-first state management, biometric authentication, and native device integration.",
     features: [
       "Cross-Platform iOS & Android Parity",
-      "Fluid Gesture Animations (Reanimated)",
+      "Smooth Gesture Transitions & Native UI",
       "Push Notifications & In-App Analytics",
-      "Offline-First SQLite / WatermelonDB",
+      "Offline-First SQLite & Local Storage",
     ],
     techStack: ["React Native", "Expo", "TypeScript", "Redux Toolkit", "GraphQL"],
-    codeSnippet: `// Mobile Native Hook
-const useNativeSensor = () => {
-  const { isConnected } = useNetwork();
-  return { status: isConnected ? "online" : "offline" };
-};`,
+    codeSnippet: `// React Native Offline Sync Hook
+export function useSyncQueue() {
+  const isOnline = useNetworkStatus();
+  return { isOnline, pendingMutations: isOnline ? 0 : queue.length };
+}`,
   },
   {
     id: "design-systems",
     name: "UI/UX & Design Systems",
     shortName: "UI/UX Design",
-    tagline: "Pixel-Perfect Interfaces & Scalable Design Tokens",
+    tagline: "Consistent Interfaces & Scalable Design Tokens",
     icon: Palette,
     description:
-      "Elevating brand identities with modern dark-mode aesthetic, glassmorphism, dynamic design tokens, and highly reusable design component libraries.",
+      "Building brand identities and scalable UI component libraries with dark-mode support, accessible Radix UI primitives, and typed Tailwind design tokens.",
     features: [
-      "Comprehensive Figma Design Systems",
-      "Custom Tailwind & Radix UI Primitives",
-      "Interactive Micro-Interactions",
-      "WCAG 2.1 AAA Accessibility Standards",
+      "Figma-to-Code Design Token Pipelines",
+      "Accessible Radix UI Primitives",
+      "Responsive Multi-Theme Color Tokens",
+      "WCAG 2.1 AA Accessibility Guidelines",
     ],
-    techStack: ["Figma", "TailwindCSS", "Radix UI", "Framer Motion", "CSS Modules"],
-    codeSnippet: `/* Design Tokens */
+    techStack: ["Figma", "TailwindCSS", "Radix UI", "GSAP", "CSS Modules"],
+    codeSnippet: `/* Design Tokens System */
 :root {
-  --accent-glow: radial-gradient(circle, #8b5cf6 0%, #3b82f6 100%);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --color-primary: oklch(0.205 0 0);
+  --color-surface: oklch(0.985 0 0);
+  --color-accent: #8b5cf6;
 }`,
   },
   {
     id: "ai-automation",
     name: "AI & Machine Learning",
     shortName: "AI / Automation",
-    tagline: "Intelligent Workflows & Custom LLM Integrations",
+    tagline: "Production AI Workflows & Custom LLM Integrations",
     icon: Cpu,
     description:
-      "Integrating cutting-edge AI capabilities—from custom RAG pipelines to autonomous task agents and intelligent natural language search systems.",
+      "Integrating practical AI capabilities—from custom RAG pipelines to structured LLM agent tool use and semantic search workflows.",
     features: [
       "Custom Vector Search & RAG Pipelines",
-      "LLM Agent Function Calling & Tool Use",
-      "Automated Data Mining & Extraction",
-      "Fine-tuned Domain Specific Models",
+      "LLM Function Calling & Tool Orchestration",
+      "Structured Data Extraction & Parsing",
+      "Domain-Specific Prompt Engineering",
     ],
     techStack: ["Python", "PyTorch", "FastAPI", "OpenAI", "LangChain", "Pinecone"],
-    codeSnippet: `# AI Agent Tool Declaration
+    codeSnippet: `# LLM Agent Tool Dispatcher
 @agent.tool
-def execute_query(prompt: str) -> dict:
-    return rag_pipeline.search(prompt, limit=5)`,
+def search_knowledge_base(query: str) -> list[Document]:
+    embeddings = embed_query(query)
+    return vector_store.similarity_search(embeddings, top_k=4)`,
   },
   {
     id: "cloud-devops",
     name: "Cloud & DevOps Solutions",
     shortName: "Cloud DevOps",
-    tagline: "Bulletproof Infrastructure & Zero-Downtime Deployments",
+    tagline: "Containerized Cloud Infrastructure & Automated CI/CD",
     icon: Server,
     description:
-      "Building resilient serverless and containerized cloud setups on AWS and Vercel with automated GitHub Actions CI/CD pipelines and 24/7 logging.",
+      "Building resilient containerized and serverless environments on AWS and Vercel with automated GitHub Actions CI/CD pipelines and centralized logging.",
     features: [
-      "Automated CI/CD Deployment Pipelines",
-      "Docker & Kubernetes Containerization",
-      "Cloud Infrastructure as Code (Terraform)",
-      "Real-time Monitoring & Alert Systems",
+      "Automated GitHub Actions CI/CD Pipelines",
+      "Docker & Container Orchestration",
+      "Infrastructure as Code (Terraform / CloudFormation)",
+      "Structured Error Logging & Health Probes",
     ],
     techStack: ["AWS", "Docker", "Linux", "GitHub Actions", "Vercel", "PostgreSQL"],
-    codeSnippet: `# GitHub Actions Deployment
-name: Deploy Main
+    codeSnippet: `# GitHub Actions CI/CD Pipeline
+name: Test & Staged Deploy
 on:
   push:
     branches: [main]
 jobs:
-  build-and-deploy:
+  verify-and-build:
     runs-on: ubuntu-latest`,
   },
 ];
@@ -144,23 +147,23 @@ jobs:
 const workflowSteps = [
   {
     step: "01",
-    title: "Discovery & Strategy",
+    title: "Discovery & Architecture",
     description:
-      "We dive deep into your requirements, defining project architecture, database models, and target milestones.",
+      "We analyze your project requirements, defining modular software architecture, data schemas, and sprint milestones.",
     icon: Code2,
   },
   {
     step: "02",
-    title: "Agile Development",
+    title: "Sprint Execution & CI/CD",
     description:
-      "Writing clean, modular code with continuous testing, regular code reviews, and transparent client updates.",
+      "Writing typed, modular code with continuous automated testing, peer reviews, and transparent async updates.",
     icon: Zap,
   },
   {
     step: "03",
-    title: "Launch & Optimization",
+    title: "Deployment & Handoff",
     description:
-      "Zero-downtime deployment, performance tuning, and 24/7 operational reliability for continuous growth.",
+      "Staged deployment, performance benchmarking, automated smoke tests, and comprehensive documentation.",
     icon: ShieldCheck,
   },
 ];
@@ -426,21 +429,21 @@ export default function AboutSection() {
             <div className="grid grid-cols-3 gap-2 p-3.5 rounded-xl bg-neutral-900/40 border border-neutral-800/80 text-center mb-5 relative z-10">
               <div>
                 <div className="text-xl sm:text-2xl font-bold text-white">
+                  6
+                </div>
+                <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-tight mt-0.5">Core Engineers</div>
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-bold text-white">
+                  GMT+6
+                </div>
+                <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-tight mt-0.5">Dhaka & Global</div>
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-bold text-white">
                   100%
                 </div>
-                <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-tight mt-0.5">Code Quality</div>
-              </div>
-              <div>
-                <div className="text-xl sm:text-2xl font-bold text-white">
-                  60 FPS
-                </div>
-                <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-tight mt-0.5">Fluid UI UX</div>
-              </div>
-              <div>
-                <div className="text-xl sm:text-2xl font-bold text-white">
-                  24/7
-                </div>
-                <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-tight mt-0.5">Agile Velocity</div>
+                <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-tight mt-0.5">Direct Access</div>
               </div>
             </div>
 
@@ -489,10 +492,10 @@ export default function AboutSection() {
           {/* Bottom Footer Badge */}
           <div className="pt-3 border-t border-neutral-800/80 flex items-center justify-between text-[11px] text-neutral-400 font-mono relative z-10">
             <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-ping" />
-              <span>Production Ready</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Open for New Projects</span>
             </span>
-            <span className="text-neutral-500">v2.4.0</span>
+            <span className="text-neutral-500">Dhaka, BD</span>
           </div>
         </motion.div>
       </div>

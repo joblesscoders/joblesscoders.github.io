@@ -105,8 +105,9 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   // state available to all descendant components, like NavbarLogo.
   return (
     <NavbarContext.Provider value={{ visible }}>
-      <motion.div
+      <motion.header
         ref={ref}
+        role="banner"
         className={cn("sticky inset-x-0 top-5 z-40 w-full", className)}
       >
         {React.Children.map(children, (child) =>
@@ -117,7 +118,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
               )
             : child,
         )}
-      </motion.div>
+      </motion.header>
     </NavbarContext.Provider>
   );
 };
@@ -125,7 +126,8 @@ export const Navbar = ({ children, className }: NavbarProps) => {
 // --- Desktop Navbar Body ---
 export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   return (
-    <motion.div
+    <motion.nav
+      aria-label="Main navigation"
       animate={{
         backdropFilter: visible ? "blur(10px)" : "none",
         boxShadow: visible
@@ -149,7 +151,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       )}
     >
       {children}
-    </motion.div>
+    </motion.nav>
   );
 };
 

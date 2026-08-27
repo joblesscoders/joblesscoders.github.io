@@ -7,12 +7,23 @@ import logo from "@/../public/assets/Jobless_coders_colored.png";
 
 const FOOTER_LINKS = [
   {
-    title: "Pages",
+    title: "Navigation",
     links: [
       { label: "Home", href: "/" },
-      { label: "About Us", href: "#about" },
-      { label: "Team", href: "#team" },
-      { label: "Contact", href: "#contact" },
+      { label: "Services", href: "/services" },
+      { label: "Work", href: "/work" },
+      { label: "About Collective", href: "/about" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  {
+    title: "Services",
+    links: [
+      { label: "Full-Stack Web Apps", href: "/services/web-dev" },
+      { label: "Mobile Applications", href: "/services/mobile-dev" },
+      { label: "AI & ML Integrations", href: "/services/ai-automation" },
+      { label: "Cloud & DevOps", href: "/services/cloud-devops" },
+      { label: "UI/UX & Design Systems", href: "/services/design-systems" },
     ],
   },
   {
@@ -21,24 +32,15 @@ const FOOTER_LINKS = [
       { label: "GitHub", href: "https://github.com/joblesscoders" },
       { label: "LinkedIn", href: "https://linkedin.com/company/joblesscoders" },
       { label: "Facebook", href: "https://facebook.com/joblesscoders" },
-      { label: "Discord", href: "#" },
+      { label: "X (Twitter)", href: "https://x.com/your_gumpy" },
     ],
   },
   {
-    title: "Services",
+    title: "Contact",
     links: [
-      { label: "Web Development", href: "#" },
-      { label: "Cloud Solutions", href: "#" },
-      { label: "AI & ML", href: "#" },
-      { label: "Cyber Security", href: "#" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { label: "Privacy Policy", href: "#" },
-      { label: "Terms of Service", href: "#" },
-      { label: "Cookie Policy", href: "#" },
+      { label: "Start a Project", href: "/contact" },
+      { label: "Direct Email", href: "mailto:joblesscodersbd@gmail.com" },
+      { label: "Dhaka (GMT+6)", href: "/about" },
     ],
   },
 ];

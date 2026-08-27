@@ -1,125 +1,101 @@
-import React from "react";
-import TechStack from "@/components/ui/techstack";
+﻿import React from "react";
+import Image from "next/image";
 
 export default function TechSection() {
-  const techIcons_1 = [
+  const categories = [
     {
-      name: "HTML5",
-      icon_dark: "HTML5.svg",
-      icon_light: "",
-    },
-    { name: "CSS3", icon_dark: "CSS3.svg", icon_light: "" },
-    {
-      name: "JavaScript",
-      icon_dark: "JavaScript.svg",
-      icon_light: "",
-    },
-    {
-      name: "React.js",
-      icon_dark: "React.svg",
-      icon_light: "",
+      name: "Frontend & Mobile",
+      description: "Fast, accessible user interfaces and cross-platform apps",
+      items: [
+        { name: "Next.js 15", icon: "/assets/icons/nextjs.svg" },
+        { name: "React 19", icon: "/assets/icons/react.svg" },
+        { name: "TypeScript", icon: "/assets/icons/TypeScript.svg" },
+        { name: "Tailwind CSS", icon: "/assets/icons/tailwind.svg" },
+        { name: "React Native", icon: "/assets/icons/react.svg" },
+        { name: "Figma", icon: "/assets/icons/figma.svg" },
+      ],
     },
     {
-      name: "Next.js",
-      icon_dark: "Next.svg",
-      icon_light: "",
+      name: "Backend & AI Workflows",
+      description: "High-throughput APIs, vector databases, and LLM tool chains",
+      items: [
+        { name: "Node.js", icon: "/assets/icons/Node.js.svg" },
+        { name: "Python", icon: "/assets/icons/python.svg" },
+        { name: "PostgreSQL", icon: "/assets/icons/PostgresSQL.svg" },
+        { name: "FastAPI", icon: "/assets/icons/Flask.svg" },
+        { name: "PyTorch", icon: "/assets/icons/pytorch.svg" },
+        { name: "Ollama / LLMs", icon: "/assets/icons/ollama.svg" },
+      ],
     },
     {
-      name: "Node.js",
-      icon_dark: "Node.svg",
-      icon_light: "",
-    },
-    {
-      name: "Python",
-      icon_dark: "Python.svg",
-      icon_light: "",
-    },
-    {
-      name: "Flask",
-      icon_dark: "Flask.svg",
-      icon_light: "",
-    },
-    {
-      name: "C++",
-      icon_dark: "C++ (CPlusPlus).svg",
-      icon_light: "",
-    },
-    {
-      name: "Spring",
-      icon_dark: "Spring.svg",
-      icon_light: "",
-    },
-    {
-      name: "MySQL",
-      icon_dark: "MySQL.svg",
-      icon_light: "",
-    },
-    {
-      name: "PostgreSQL",
-      icon_dark: "PostgresSQL.svg",
-      icon_light: "",
-    },
-    {
-      name: "GitHub",
-      icon_dark: "github.svg",
-      icon_light: "",
-    },
-  ];
-
-  const techIcons_2 = [
-    {
-      name: "AWS",
-      icon_dark: "aws.svg",
-      icon_light: "",
-    },
-    {
-      name: "TailwindCSS",
-      icon_dark: "TailwindCSS.svg",
-      icon_light: "",
-    },
-    {
-      name: "NPM",
-      icon_dark: "NPM.svg",
-      icon_light: "",
-    },
-    {
-      name: "Linux",
-      icon_dark: "Linux.svg",
-      icon_light: "",
-    },
-    {
-      name: "Figma",
-      icon_dark: "figma.svg",
-      icon_light: "",
-    },
-    {
-      name: "Redux",
-      icon_dark: "Redux.svg",
-      icon_light: "",
-    },
-    {
-      name: "Vercel",
-      icon_dark: "vercel.svg",
-      icon_light: "",
-    },
-    {
-      name: "FastAPI",
-      icon_dark: "FastAPI.svg",
-      icon_light: "",
-    },
-    {
-      name: "Django",
-      icon_dark: "Django.svg",
-      icon_light: "",
+      name: "Cloud & Infrastructure",
+      description: "Containerized deployments, automated CI/CD, and security",
+      items: [
+        { name: "AWS", icon: "/assets/icons/aws.svg" },
+        { name: "Docker", icon: "/assets/icons/docker.svg" },
+        { name: "Linux", icon: "/assets/icons/Linux.svg" },
+        { name: "GitHub Actions", icon: "/assets/icons/github.svg" },
+        { name: "Vercel", icon: "/assets/icons/nextjs.svg" },
+        { name: "Firebase", icon: "/assets/icons/firebase.svg" },
+      ],
     },
   ];
 
   return (
-    <div>
-      <div className="max-w-full mx-auto flex flex-wrap items-center justify-center gap-4 pt-10">
-        <TechStack techIcons={techIcons_1} />
-        <TechStack techIcons={techIcons_2} rotate={true} />
+    <section className="py-20 sm:py-24 bg-card/30 border-y border-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="max-w-3xl mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
+            <span>{"// Technology Arsenal"}</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            Modern, Maintainable Tech Stacks
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+            We select proven, battle-tested tools to maximize runtime performance, developer velocity, and maintainability.
+          </p>
+        </div>
+
+        {/* Categorized Tech Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {categories.map((cat) => (
+            <div
+              key={cat.name}
+              className="p-6 sm:p-7 rounded-2xl bg-card border border-border flex flex-col justify-between"
+            >
+              <div>
+                <h3 className="text-base sm:text-lg font-bold text-foreground mb-1">
+                  {cat.name}
+                </h3>
+                <p className="text-xs text-muted-foreground mb-6 leading-relaxed">
+                  {cat.description}
+                </p>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {cat.items.map((item) => (
+                    <div
+                      key={item.name}
+                      className="flex items-center gap-2.5 p-2.5 rounded-xl bg-muted/50 border border-border/80 hover:border-violet-500/30 transition-colors"
+                    >
+                      <Image
+                        src={item.icon}
+                        alt={`${item.name} icon`}
+                        width={20}
+                        height={20}
+                        className="w-5 h-5 shrink-0 object-contain"
+                      />
+                      <span className="text-xs font-medium text-foreground truncate">
+                        {item.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { usePathname } from "next/navigation";
-import { smoothScrollTo } from "@/lib/utils";
+import Link from "next/link";
 
 import {
   Navbar,
@@ -17,30 +16,21 @@ import {
 
 export default function MyNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-  // On the homepage these resolve to in-page anchors with a smooth-scroll
-  // animation; on any other route they become real links back to "/#section"
-  // so navigation still works instead of silently doing nothing.
-  const prefix = isHome ? "" : "/";
 
   const navItems = [
     {
-      name: "About Us",
-      link: `${prefix}#about`,
+      name: "Services",
+      link: "/services",
     },
     {
-      name: "Team",
-      link: `${prefix}#team`,
+      name: "Work",
+      link: "/work",
+    },
+    {
+      name: "About",
+      link: "/about",
     },
   ];
-
-  const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    setIsMobileMenuOpen(false);
-    if (!isHome) return;
-    e.preventDefault();
-    smoothScrollTo(targetId, 1000);
-  };
 
   return (
     <Navbar>
@@ -49,7 +39,7 @@ export default function MyNavbar() {
         <NavbarLogo />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
-          <NavbarButton variant="primary" href={`${prefix}#contact`}>
+          <NavbarButton variant="primary" href="/contact">
             Contact
           </NavbarButton>
         </div>
@@ -71,30 +61,34 @@ export default function MyNavbar() {
         >
           {/* Mobile menu items */}
           <div className="flex flex-col space-y-4 w-full">
-            <a
-              href={`${prefix}#about`}
-              onClick={(e) => handleMobileNavClick(e, "#about")}
-              className="text-neutral-600 dark:text-neutral-300 font-medium hover:text-white transition-colors cursor-pointer"
+            <Link
+              href="/services"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-neutral-600 dark:text-neutral-300 font-medium hover:text-white transition-colors"
             >
-              About Us
-            </a>
-            <a
-              href={`${prefix}#team`}
-              onClick={(e) => handleMobileNavClick(e, "#team")}
-              className="text-neutral-600 dark:text-neutral-300 font-medium hover:text-white transition-colors cursor-pointer"
+              Services
+            </Link>
+            <Link
+              href="/work"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-neutral-600 dark:text-neutral-300 font-medium hover:text-white transition-colors"
             >
-              Team
-            </a>
+              Work
+            </Link>
+            <Link
+              href="/about"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-neutral-600 dark:text-neutral-300 font-medium hover:text-white transition-colors"
+            >
+              About
+            </Link>
           </div>
 
           {/* Mobile CTA button */}
           <div className="flex w-full flex-col gap-4 mt-6 pt-4 border-t border-neutral-200 dark:border-neutral-700">
             <NavbarButton
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                if (isHome) smoothScrollTo("#contact", 1000);
-              }}
-              href={`${prefix}#contact`}
+              onClick={() => setIsMobileMenuOpen(false)}
+              href="/contact"
               variant="primary"
               className="w-full"
             >
