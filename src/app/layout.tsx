@@ -4,6 +4,7 @@ import { Poppins, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import MyDock from "@/components/layout/MyDock";
 import MyNavbar from "@/components/layout/MyNavbar";
+import ScrollProgress from "@/components/layout/ScrollProgress";
 import Footer from "@/components/layout/Footer";
 import Script from 'next/script';
 import Analytics from "@/components/Analytics";
@@ -32,7 +33,6 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: [...siteConfig.keywords],
   authors: [{ name: `${siteConfig.name} Team`, url: siteConfig.url }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
@@ -106,10 +106,11 @@ export default function RootLayout({
           >
             Skip to content
           </a>
+          <ScrollProgress />
           <Analytics />
           <WebVitals />
           <MyNavbar />
-          <main id="main-content" className="mt-20 md:pt-10">
+          <main id="main-content" className="mt-20 md:pt-10 pb-24 sm:pb-28">
             {children}
             <MyDock />
           </main>

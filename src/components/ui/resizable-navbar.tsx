@@ -1,32 +1,12 @@
 "use client";
-import { cn, smoothScrollTo } from "@/lib/utils";
-import { IconMenu2, IconX } from "@tabler/icons-react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
-} from "framer-motion";
+import React, { useState, useEffect, useRef, createContext, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { IconMenu2, IconX } from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
 import logo from "@/../public/assets/Jobless_coders_colored.png";
 
-import React, { 
-    useRef, 
-    useState, 
-    createContext, // Added for context
-    useContext      // Added for context
-} from "react";
-
-// --- Context for Navbar Visibility ---
-// This context is created to avoid "prop drilling". It allows any component
-// within the Navbar tree to access the `visible` state without it being
-// passed down manually through each component.
 const NavbarContext = createContext<{ visible: boolean }>({ visible: false });
-
-
-// --- Component Interfaces ---
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -76,238 +56,129 @@ interface MegaMenuItemProps {
   onItemClick?: () => void;
 }
 
-// --- Animation Transition Settings ---
-const transition = {
-  type: "spring" as const,
-  mass: 0.5,
-  damping: 11.5,
-  stiffness: 100,
-  restDelta: 0.001,
-  restSpeed: 0.001,
-};
-
-// --- Main Navbar Component ---
 export const Navbar = ({ children, className }: NavbarProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
   const [visible, setVisible] = useState<boolean>(false);
 
-  // This hook listens to scroll changes and updates the `visible` state.
-  // When the user scrolls more than 100px, the navbar becomes "visible" (shrunken).
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setVisible(latest > 100);
-  });
+  useEffect(() => {
+    const handleScroll = () => {
+      setVisible(window.scrollY > 80);
+    };
 
-  // The NavbarContext.Provider wraps the children, making the `visible`
-  // state available to all descendant components, like NavbarLogo.
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <NavbarContext.Provider value={{ visible }}>
-      <motion.header
-        ref={ref}
+      <header
         role="banner"
-        className={cn("sticky inset-x-0 top-5 z-40 w-full", className)}
+        className={cn("sticky inset-x-0 top-5 z-40 w-full transition-all duration-300", className)}
       >
         {React.Children.map(children, (child) =>
           React.isValidElement(child)
-            ? React.cloneElement(
-                child as React.ReactElement<{ visible?: boolean }>,
-                { visible },
-              )
-            : child,
+            ? React.cloneElement(child as React.ReactElement<{ visible?: boolean }>, { visible })
+            : child
         )}
-      </motion.header>
+      </header>
     </NavbarContext.Provider>
   );
 };
 
-// --- Desktop Navbar Body ---
 export const NavBody = ({ children, className, visible }: NavBodyProps) => {
   return (
-    <motion.nav
+    <nav
       aria-label="Main navigation"
-      animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
-        boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
-          : "none",
-        width: visible ? "40%" : "100%",
-        y: visible ? 20 : 0,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 200,
-        damping: 50,
-      }}
-      style={{
-        minWidth: "800px",
-      }}
       className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
-        className,
+        "relative z-[60] mx-auto hidden flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex transition-all duration-300 ease-out",
+        visible
+          ? "w-full max-w-3xl bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md shadow-lg border border-border mt-2"
+          : "w-full max-w-7xl",
+        className
       )}
     >
       {children}
-    </motion.nav>
+    </nav>
   );
 };
 
-// --- Mega Menu Item ---
-export const MegaMenuItem = ({ 
-  setActive, 
-  active, 
-  item, 
-  link, 
-  children, 
-  onItemClick 
+export const MegaMenuItem = ({
+  setActive,
+  active,
+  item,
+  link,
+  children,
+  onItemClick,
 }: MegaMenuItemProps) => {
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (link && link.startsWith("#")) {
-      e.preventDefault();
-      smoothScrollTo(link, 1000);
-    }
-    if (onItemClick) {
-      onItemClick();
-    }
-  };
-
   const content = (
-    <motion.p
-      transition={{ duration: 0.3 }}
-      className="cursor-pointer text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100 relative z-20"
-    >
+    <span className="cursor-pointer text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white transition-colors duration-150 relative z-20 font-medium py-1">
       {item}
-    </motion.p>
+    </span>
   );
 
   return (
-    <div 
-      onMouseEnter={() => children ? setActive(item) : null} 
-      className="relative px-4 py-2"
+    <div
+      onMouseEnter={() => (children ? setActive(item) : null)}
+      className="relative px-3 py-1.5"
     >
       {link && !children ? (
-        <a href={link} onClick={handleClick}>
+        <Link
+          href={link}
+          onClick={onItemClick}
+          className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-2 rounded px-2 py-1 inline-flex items-center"
+        >
           {content}
-        </a>
+        </Link>
       ) : (
         content
       )}
-      
-      {children && active !== null && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={transition}
-        >
-          {active === item && (
-            <div className="absolute top-[calc(100%_+_1.2rem)] left-1/2 transform -translate-x-1/2 pt-4">
-              <motion.div
-                transition={transition}
-                layoutId="active"
-                className="bg-white dark:bg-black backdrop-blur-sm rounded-2xl overflow-hidden border border-black/[0.2] dark:border-white/[0.2] shadow-xl"
-              >
-                <motion.div
-                  layout
-                  className="w-max h-full p-4"
-                >
-                  {children}
-                </motion.div>
-              </motion.div>
-            </div>
-          )}
-        </motion.div>
+
+      {children && active === item && (
+        <div className="absolute top-[calc(100%_+_0.8rem)] left-1/2 -translate-x-1/2 pt-2 transition-all duration-200">
+          <div className="bg-card backdrop-blur-md rounded-2xl overflow-hidden border border-border shadow-xl p-4 w-max">
+            {children}
+          </div>
+        </div>
       )}
     </div>
   );
 };
 
-// --- Desktop Navigation Items ---
 export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
-  const [hovered, setHovered] = useState<number | null>(null);
   const [active, setActive] = useState<string | null>(null);
 
   return (
-    <motion.div
-      onMouseLeave={() => {
-        setHovered(null);
-        setActive(null);
-      }}
+    <div
+      onMouseLeave={() => setActive(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
-        className,
+        "hidden flex-1 flex-row items-center justify-center space-x-1 text-sm font-medium text-muted-foreground lg:flex",
+        className
       )}
     >
       {items.map((item, idx) => (
-        <div key={`nav-item-${idx}`} className="relative">
-          <div
-            onMouseEnter={() => setHovered(idx)}
-          >
-            {hovered === idx && (
-              <motion.div
-                layoutId="hovered"
-                className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
-              />
-            )}
-            <MegaMenuItem
-              setActive={setActive}
-              active={active}
-              item={item.name}
-              link={item.link}
-              onItemClick={onItemClick}
-            >
-              {item.children}
-            </MegaMenuItem>
-          </div>
-        </div>
+        <MegaMenuItem
+          key={`nav-item-${idx}`}
+          setActive={setActive}
+          active={active}
+          item={item.name}
+          link={item.link}
+          onItemClick={onItemClick}
+        >
+          {item.children}
+        </MegaMenuItem>
       ))}
-    </motion.div>
+    </div>
   );
 };
 
-// --- Mobile Navigation Container ---
 export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
-  return (
-    <motion.div
-      animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
-        boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
-          : "none",
-        width: visible ? "90%" : "100%",
-        paddingRight: visible ? "12px" : "0px",
-        paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
-        y: visible ? 20 : 0,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 200,
-        damping: 50,
-      }}
-      className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
-        className,
-      )}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-// --- Mobile Navigation Header ---
-export const MobileNavHeader = ({
-  children,
-  className,
-}: MobileNavHeaderProps) => {
   return (
     <div
       className={cn(
-        "flex w-full flex-row items-center justify-between",
-        className,
+        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-2 py-2 lg:hidden transition-all duration-300 ease-out",
+        visible && "bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md rounded-2xl border border-border shadow-md",
+        className
       )}
     >
       {children}
@@ -315,32 +186,65 @@ export const MobileNavHeader = ({
   );
 };
 
-// --- Mobile Navigation Menu ---
+export const MobileNavHeader = ({ children, className }: MobileNavHeaderProps) => {
+  return (
+    <div className={cn("flex w-full flex-row items-center justify-between", className)}>
+      {children}
+    </div>
+  );
+};
+
 export const MobileNavMenu = ({
   children,
   className,
   isOpen,
+  onClose,
 }: MobileNavMenuProps) => {
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Body scroll lock
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    // Escape key listener to close menu
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        const toggleBtn = document.getElementById("mobile-nav-toggle");
+        toggleBtn?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
-            className,
-          )}
-        >
-          {children}
-        </motion.div>
+    <div
+      ref={menuRef}
+      id="mobile-nav-menu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Mobile Navigation"
+      className={cn(
+        "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-2xl bg-card p-6 shadow-2xl border border-border transition-all duration-200",
+        className
       )}
-    </AnimatePresence>
+    >
+      {children}
+    </div>
   );
 };
 
-// --- Mobile Navigation Toggle Button ---
 export const MobileNavToggle = ({
   isOpen,
   onClick,
@@ -348,53 +252,49 @@ export const MobileNavToggle = ({
   isOpen: boolean;
   onClick: () => void;
 }) => {
-  return isOpen ? (
-    <IconX className="text-black dark:text-white" onClick={onClick} />
-  ) : (
-    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
+  return (
+    <button
+      id="mobile-nav-toggle"
+      type="button"
+      onClick={onClick}
+      aria-expanded={isOpen}
+      aria-controls="mobile-nav-menu"
+      aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+      className="p-3 min-h-[44px] min-w-[44px] rounded-xl text-foreground hover:bg-muted transition-colors flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-2"
+    >
+      {isOpen ? <IconX className="w-6 h-6" /> : <IconMenu2 className="w-6 h-6" />}
+    </button>
   );
 };
 
-// --- Navbar Logo (Updated) ---
 export const NavbarLogo = () => {
-  // Use the `useContext` hook to access the `visible` state from the
-  // NavbarContext.
   const { visible } = useContext(NavbarContext);
-  const isHome = usePathname() === "/";
-
-  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!isHome) return;
-    e.preventDefault();
-    smoothScrollTo("#", 1000);
-  };
 
   return (
     <Link
       href="/"
-      onClick={handleLogoClick}
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-light cursor-pointer"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-2 min-h-[44px] text-sm font-light cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-2 rounded"
+      aria-label="Jobless Coders Homepage"
     >
       <Image
         src={logo}
         className="rounded-lg"
-        alt="logo"
+        alt="Jobless Coders logo"
         width={30}
         height={30}
       />
-      {/* Conditionally render the logo text based on the `visible` state. */}
-      <span className="font-medium text-lg text-black dark:text-white">
+      <span className="font-medium text-lg text-foreground">
         {visible ? (
-          // Render abbreviated logo when navbar is shrunken
-          <div className="font-bitcount-normal font-light">
-            <span className="text-violet-500">{'<'}</span>J<span className="text-red-400">C</span>
-            <span className="text-violet-500">{'/>'}</span>
+          <div className="font-mono text-sm sm:text-base font-semibold">
+            <span className="text-violet-500">{"<"}</span>J
+            <span className="text-red-400">C</span>
+            <span className="text-violet-500">{"/>"}</span>
           </div>
         ) : (
-          // Render full logo text by default
-          <div className="font-bitcount-normal font-light">
-            <span className="text-violet-500">{'<'}</span>Jobless{' '}
+          <div className="font-mono text-sm sm:text-base font-semibold">
+            <span className="text-violet-500">{"<"}</span>Jobless{" "}
             <span className="text-red-400">
-              Coders<span className="text-violet-500">{'/>'}</span>
+              Coders<span className="text-violet-500">{"/>"}</span>
             </span>
           </div>
         )}
@@ -403,7 +303,6 @@ export const NavbarLogo = () => {
   );
 };
 
-// --- Generic Navbar Button ---
 export const NavbarButton = ({
   href,
   as: Tag = "a",
@@ -422,81 +321,37 @@ export const NavbarButton = ({
   | React.ComponentPropsWithoutRef<"button">
 )) => {
   const baseStyles =
-    "px-4 py-2 rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
+    "px-4 py-2.5 min-h-[44px] rounded-xl text-sm font-semibold relative transition-all duration-150 inline-flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-2";
 
   const variantStyles = {
     primary:
-      "shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
-    secondary: "bg-transparent shadow-none dark:text-white",
-    dark: "bg-black text-white shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]",
+      "bg-violet-600 hover:bg-violet-500 text-white shadow-sm hover:-translate-y-0.5",
+    secondary: "bg-transparent text-foreground hover:bg-muted",
+    dark: "bg-neutral-900 text-white hover:bg-neutral-800",
     gradient:
-      "bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
+      "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-sm hover:-translate-y-0.5",
   };
 
-  const handleButtonClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (props.onClick) {
-      (props.onClick as (e: React.MouseEvent<HTMLElement>) => void)(e);
-    } else if (href && href.startsWith("#")) {
-      e.preventDefault();
-      smoothScrollTo(href, 1000);
-    }
-  };
+  if (href && !href.startsWith("http")) {
+    const { onClick } = props as { onClick?: React.MouseEventHandler<HTMLAnchorElement> };
+    return (
+      <Link
+        href={href}
+        className={cn(baseStyles, variantStyles[variant], className)}
+        onClick={onClick}
+      >
+        {children}
+      </Link>
+    );
+  }
 
   return (
     <Tag
       href={href || undefined}
       className={cn(baseStyles, variantStyles[variant], className)}
       {...props}
-      onClick={handleButtonClick}
     >
       {children}
     </Tag>
-  );
-};
-
-// --- Helper Components for Mega Menu Content ---
-export const ProductItem = ({
-  title,
-  description,
-  href,
-  src,
-}: {
-  title: string;
-  description: string;
-  href: string;
-  src: string;
-}) => {
-  return (
-    <a href={href} className="flex space-x-2">
-      <Image
-        src={src}
-        width={140}
-        height={70}
-        alt={title}
-        className="shrink-0 rounded-md shadow-2xl"
-      />
-      <div>
-        <h4 className="text-xl font-bold mb-1 text-black dark:text-white">
-          {title}
-        </h4>
-        <p className="text-neutral-700 text-sm max-w-[10rem] dark:text-neutral-300">
-          {description}
-        </p>
-      </div>
-    </a>
-  );
-};
-
-export const HoveredLink = ({
-  children,
-  ...rest
-}: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
-  return (
-    <a
-      {...rest}
-      className="text-neutral-700 dark:text-neutral-200 hover:text-black "
-    >
-      {children}
-    </a>
   );
 };

@@ -1,7 +1,13 @@
-﻿import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import { Users, Globe2, Cpu, ShieldCheck } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/lib/gsap";
 
 export function ProofSection() {
+  const containerRef = useRef<HTMLElement>(null);
+
   const proofs = [
     {
       stat: "6",
@@ -29,16 +35,49 @@ export function ProofSection() {
     },
   ];
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(".proof-item", {
+          opacity: 0,
+          y: 12,
+          duration: 0.35,
+          stagger: 0.06,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        });
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(".proof-item", { opacity: 1, y: 0 });
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section aria-label="Studio Facts" className="py-12 border-y border-border bg-card/50">
+    <section
+      ref={containerRef}
+      aria-label="Studio Facts"
+      className="py-12 border-y border-border bg-card/50"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {proofs.map((item, index) => {
             const Icon = item.icon;
             return (
-              <div key={index} className="flex flex-col items-center sm:items-start text-center sm:text-left">
+              <div
+                key={index}
+                className="proof-item flex flex-col items-center sm:items-start text-center sm:text-left"
+              >
                 <div className="flex items-center gap-2 mb-1.5">
-                  <Icon className="w-4 h-4 text-violet-400 shrink-0" />
+                  <Icon className="w-4 h-4 text-violet-400 shrink-0" aria-hidden="true" />
                   <span className="text-2xl sm:text-3xl font-bold font-mono text-foreground tracking-tight">
                     {item.stat}
                   </span>

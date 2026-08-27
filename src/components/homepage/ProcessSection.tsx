@@ -1,7 +1,13 @@
-﻿import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import { Compass, Palette, Code2, Rocket } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/lib/gsap";
 
 export function ProcessSection() {
+  const containerRef = useRef<HTMLElement>(null);
+
   const steps = [
     {
       step: "01",
@@ -33,11 +39,49 @@ export function ProcessSection() {
     },
   ];
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(".process-header", {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        });
+
+        gsap.from(".process-step", {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          stagger: 0.07,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".process-grid",
+            start: "top 85%",
+            once: true,
+          },
+        });
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set([".process-header", ".process-step"], { opacity: 1, y: 0 });
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section className="py-20 sm:py-24">
+    <section ref={containerRef} className="py-20 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="max-w-3xl mb-14">
+        <div className="process-header max-w-3xl mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
             <span>{"// How We Work"}</span>
           </div>
@@ -50,18 +94,18 @@ export function ProcessSection() {
         </div>
 
         {/* Process Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="process-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.step}
-                className="flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200"
+                className="process-step flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="p-2 rounded-xl bg-violet-500/10 text-violet-400">
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-5 h-5" aria-hidden="true" />
                     </div>
                     <span className="text-xs font-mono text-violet-400 font-bold px-2 py-0.5 bg-violet-500/10 rounded">
                       {item.step}

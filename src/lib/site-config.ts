@@ -1,11 +1,18 @@
+/**
+ * Centralized site configuration for Jobless Coders platform.
+ * 
+ * Production Launch TODO:
+ * When custom domain DNS is active (e.g. joblesscoders.com or joblesscoders.github.io),
+ * set NEXT_PUBLIC_SITE_URL in your hosting environment variables or update the fallback below.
+ */
 export const siteConfig = {
   name: "Jobless Coders",
-  legalName: "JoblessCodersBD",
-  url: "https://joblesscoders.vercel.app",
+  legalName: "Jobless Coders Collective",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://joblesscoders.vercel.app",
   description:
-    "Jobless Coders is a Dhaka, Bangladesh-based collective of software engineers building full-stack web apps, mobile apps, AI/LLM integrations, UI/UX design systems, and cloud & DevOps infrastructure for startups and businesses worldwide.",
+    "Senior software engineering collective based in Dhaka, Bangladesh (GMT+6). We engineer production web platforms, cross-platform mobile apps, custom AI workflows, and cloud infrastructure with direct developer access.",
   shortDescription:
-    "A collective of software engineers in Dhaka, Bangladesh building modern web, mobile, AI, and cloud solutions.",
+    "Senior engineering collective building modern web platforms, mobile apps, custom AI workflows, and cloud infrastructure.",
   email: "joblesscodersbd@gmail.com",
   locale: "en_US",
   location: {
@@ -13,19 +20,6 @@ export const siteConfig = {
     country: "Bangladesh",
     countryCode: "BD",
   },
-  keywords: [
-    "Jobless Coders",
-    "JoblessCodersBD",
-    "web development agency Bangladesh",
-    "Next.js developers Dhaka",
-    "full-stack web development",
-    "React developers Bangladesh",
-    "mobile app development",
-    "AI and LLM integration services",
-    "UI/UX design systems",
-    "cloud and DevOps solutions",
-    "freelance software engineers Bangladesh",
-  ],
   social: {
     github: "https://github.com/joblesscoders",
     linkedin: "https://linkedin.com/company/joblesscoders",

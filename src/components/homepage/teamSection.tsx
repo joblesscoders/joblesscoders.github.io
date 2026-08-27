@@ -1,16 +1,59 @@
-﻿import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import Link from "next/link";
 import { getAllTeamMembers } from "@/content";
 import { ArrowRight, Github, Linkedin, Twitter } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/lib/gsap";
 
 export default function TeamSection() {
+  const containerRef = useRef<HTMLElement>(null);
   const team = getAllTeamMembers();
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(".team-header", {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        });
+
+        gsap.from(".team-card", {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          stagger: 0.05,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".team-grid",
+            start: "top 85%",
+            once: true,
+          },
+        });
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set([".team-header", ".team-card"], { opacity: 1, y: 0 });
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section id="team" className="py-20 sm:py-24">
+    <section id="team" ref={containerRef} className="py-20 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
+        <div className="team-header flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
               <span>{"// The Collective"}</span>
@@ -32,11 +75,11 @@ export default function TeamSection() {
         </div>
 
         {/* Team Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="team-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {team.map((member) => (
             <article
               key={member.handle}
-              className="p-6 sm:p-7 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200 flex flex-col justify-between"
+              className="team-card p-6 sm:p-7 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between gap-3 mb-3">
@@ -44,7 +87,7 @@ export default function TeamSection() {
                     @{member.handle}
                   </span>
                   <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                     <span>Senior</span>
                   </span>
                 </div>
@@ -69,16 +112,16 @@ export default function TeamSection() {
               </div>
 
               {/* Social Links */}
-              <div className="pt-4 border-t border-border flex items-center gap-3">
+              <div className="pt-4 border-t border-border flex items-center gap-2">
                 {member.socials.github && (
                   <a
                     href={member.socials.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`${member.name} GitHub`}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label={`${member.name} on GitHub (opens in new tab)`}
+                    className="p-2 min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500"
                   >
-                    <Github className="w-4 h-4" />
+                    <Github className="w-4 h-4" aria-hidden="true" />
                   </a>
                 )}
                 {member.socials.linkedin && (
@@ -86,10 +129,10 @@ export default function TeamSection() {
                     href={member.socials.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`${member.name} LinkedIn`}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label={`${member.name} on LinkedIn (opens in new tab)`}
+                    className="p-2 min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500"
                   >
-                    <Linkedin className="w-4 h-4" />
+                    <Linkedin className="w-4 h-4" aria-hidden="true" />
                   </a>
                 )}
                 {member.socials.x && (
@@ -97,10 +140,10 @@ export default function TeamSection() {
                     href={member.socials.x}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`${member.name} X`}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label={`${member.name} on X (opens in new tab)`}
+                    className="p-2 min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500"
                   >
-                    <Twitter className="w-4 h-4" />
+                    <Twitter className="w-4 h-4" aria-hidden="true" />
                   </a>
                 )}
               </div>

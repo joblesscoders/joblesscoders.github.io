@@ -23,6 +23,7 @@ export interface ServiceRecord {
   codeSnippet: string;
   codeLanguage?: string;
   faqs?: FAQItem[];
+  relatedWorkSlugs?: string[];
   ctaText?: string;
 }
 

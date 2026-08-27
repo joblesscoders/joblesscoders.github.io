@@ -47,17 +47,21 @@ const FOOTER_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="relative w-full overflow-hidden border-t border-white/[0.06] bg-neutral-950/80">
+    <footer className="relative w-full overflow-hidden border-t border-white/[0.08] bg-neutral-950">
       {/* Top gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" aria-hidden="true" />
 
       {/* Main content */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-14 pb-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 pt-14 pb-12">
         {/* Top row: Logo + Link columns */}
         <div className="grid grid-cols-1 lg:grid-cols-6 gap-10 lg:gap-8">
           {/* Logo + Copyright */}
           <div className="lg:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-2.5 mb-4 group">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2.5 mb-4 group focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded p-1"
+              aria-label="Jobless Coders Homepage"
+            >
               <Image
                 src={logo}
                 alt="Jobless Coders logo"
@@ -73,38 +77,50 @@ export default function Footer() {
                 </span>
               </span>
             </Link>
-            <p className="text-sm text-neutral-500 leading-relaxed max-w-xs">
+            <p className="text-sm text-neutral-300 leading-relaxed max-w-xs">
               © {new Date().getFullYear()} Jobless Coders. All rights reserved.
             </p>
-            <p className="text-xs text-neutral-600 mt-2 max-w-xs leading-relaxed">
+            <p className="text-xs text-neutral-400 mt-2 max-w-xs leading-relaxed">
               A collective of engineers building high-performance digital experiences from Dhaka, Bangladesh.
             </p>
           </div>
 
-          {/* Link Columns */}
-          <div className="lg:col-span-4 grid grid-cols-2 sm:grid-cols-4 gap-8">
+          {/* Link Columns inside semantic nav */}
+          <nav aria-label="Footer navigation" className="lg:col-span-4 grid grid-cols-2 sm:grid-cols-4 gap-8">
             {FOOTER_LINKS.map((group) => (
               <div key={group.title}>
-                <h4 className="text-sm font-semibold text-neutral-300 mb-4">
+                <h4 className="text-sm font-semibold text-neutral-200 mb-4">
                   {group.title}
                 </h4>
-                <ul className="space-y-2.5">
-                  {group.links.map((link) => (
-                    <li key={link.label}>
-                      <a
-                        href={link.href}
-                        target={link.href.startsWith("http") ? "_blank" : undefined}
-                        rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                        className="text-sm text-neutral-500 hover:text-violet-400 transition-colors duration-200"
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
+                <ul className="space-y-3">
+                  {group.links.map((link) => {
+                    const isInternal = link.href.startsWith("/") && !link.href.startsWith("//");
+                    return (
+                      <li key={link.label}>
+                        {isInternal ? (
+                          <Link
+                            href={link.href}
+                            className="text-sm text-neutral-300 hover:text-white transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded px-1 py-0.5 inline-block"
+                          >
+                            {link.label}
+                          </Link>
+                        ) : (
+                          <a
+                            href={link.href}
+                            target={link.href.startsWith("http") ? "_blank" : undefined}
+                            rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                            className="text-sm text-neutral-300 hover:text-white transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded px-1 py-0.5 inline-block"
+                          >
+                            {link.label}
+                          </a>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}
-          </div>
+          </nav>
         </div>
       </div>
 

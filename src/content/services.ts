@@ -51,6 +51,7 @@ export async function GET(request: Request) {
   return Response.json({ status: "ok", data });
 }`,
     codeLanguage: "typescript",
+    relatedWorkSlugs: ["studio-marketing-platform"],
     faqs: [
       {
         question: "How do you ensure web applications remain maintainable over time?",
@@ -129,7 +130,7 @@ export function useSyncQueue() {
     shortName: "AI / Automation",
     tagline: "Production AI Workflows & Custom LLM Integrations",
     summary:
-      "Integrating practical AI capabilities�from custom RAG pipelines to structured LLM agent tool use and semantic search workflows.",
+      "Integrating practical AI capabilities—from custom RAG pipelines to structured LLM agent tool use and semantic search workflows.",
     buyerProblem:
       "Companies want to leverage LLMs and AI but struggle with hallucination risks, high API latency, unstructured data parsing, and cost control.",
     outcomes: [
@@ -292,6 +293,7 @@ jobs:
   --color-accent: #8b5cf6;
 }`,
     codeLanguage: "css",
+    relatedWorkSlugs: ["studio-marketing-platform"],
     faqs: [
       {
         question: "How do you ensure accessibility in custom components?",

@@ -1,16 +1,63 @@
-﻿import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import Link from "next/link";
 import { getAllServices } from "@/content";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/lib/gsap";
 
 export function ServicesSection() {
+  const containerRef = useRef<HTMLElement>(null);
   const services = getAllServices();
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(".services-header", {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        });
+
+        gsap.from(".service-card", {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          stagger: 0.06,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".services-grid",
+            start: "top 85%",
+            once: true,
+          },
+        });
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set([".services-header", ".service-card"], { opacity: 1, y: 0 });
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section id="services" className="py-20 sm:py-24 bg-card/30 border-y border-border">
+    <section
+      id="services"
+      ref={containerRef}
+      className="py-20 sm:py-24 bg-card/30 border-y border-border"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
+        <div className="services-header flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
               <span>{"// Disciplines & Capabilities"}</span>
@@ -32,11 +79,11 @@ export function ServicesSection() {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="services-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <article
               key={service.slug}
-              className="flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200 shadow-sm"
+              className="service-card flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200 shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
@@ -78,7 +125,7 @@ export function ServicesSection() {
                   href={`/services/${service.slug}`}
                   className="inline-flex items-center gap-1 text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors"
                 >
-                  <span>Explore Spec & Architecture</span>
+                  <span>Explore {service.shortName} Specs</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>

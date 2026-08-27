@@ -1,16 +1,59 @@
-﻿import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import Link from "next/link";
 import { getPublishedProjects } from "@/content";
 import { ArrowRight, ShieldCheck, ExternalLink, Github, Lock } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/lib/gsap";
 
 export function WorkSection() {
+  const containerRef = useRef<HTMLElement>(null);
   const projects = getPublishedProjects();
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(".work-header", {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        });
+
+        gsap.from(".work-card", {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          stagger: 0.08,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".work-grid",
+            start: "top 85%",
+            once: true,
+          },
+        });
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set([".work-header", ".work-card"], { opacity: 1, y: 0 });
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section id="work" className="py-20 sm:py-24">
+    <section id="work" ref={containerRef} className="py-20 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
+        <div className="work-header flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
               <span>{"// Selected Work"}</span>
@@ -32,11 +75,11 @@ export function WorkSection() {
         </div>
 
         {/* Project Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="work-grid grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project) => (
             <article
               key={project.slug}
-              className="flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200 shadow-sm"
+              className="work-card flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200 shadow-sm hover:-translate-y-0.5"
             >
               <div>
                 <div className="flex items-center justify-between gap-4 mb-3">
@@ -127,7 +170,7 @@ export function WorkSection() {
           ))}
 
           {/* Truthful NDA Architecture Card */}
-          <div className="flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-card border border-border/80 border-dashed">
+          <div className="work-card flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-card border border-border/80 border-dashed">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground mb-3">
                 <Lock className="w-3.5 h-3.5 text-violet-400" />
@@ -140,7 +183,7 @@ export function WorkSection() {
                 Active client projects operate under mutual non-disclosure agreements. We share architecture walkthroughs, benchmark numbers, and sanitized code repositories during technical consultations.
               </p>
               <div className="space-y-2 mb-6">
-                <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider block">
+                <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider block mb-2">
                   Available Walkthroughs
                 </span>
                 <div className="flex items-start gap-2 text-xs text-muted-foreground">

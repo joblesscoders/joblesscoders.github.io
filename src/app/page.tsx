@@ -1,4 +1,6 @@
-﻿import React from "react";
+import React from "react";
+import type { Metadata } from "next";
+import { siteConfig } from "@/lib/site-config";
 import Hero from "@/components/homepage/hero";
 import { ProofSection } from "@/components/homepage/ProofSection";
 import { WorkSection } from "@/components/homepage/WorkSection";
@@ -8,31 +10,52 @@ import TechSection from "@/components/homepage/techSection";
 import TeamSection from "@/components/homepage/teamSection";
 import ContactSection from "@/components/homepage/contactSection";
 
+export const metadata: Metadata = {
+  title: "Senior Engineering Collective for High-Impact Software",
+  description:
+    "Partner with senior engineers to build production web platforms, cross-platform mobile apps, and custom AI workflows. Direct access to 6 senior builders with zero agency overhead.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Senior Engineering Collective for High-Impact Software | Jobless Coders",
+    description:
+      "Partner with senior engineers to build production web platforms, cross-platform mobile apps, and custom AI workflows. Direct access to 6 senior builders with zero agency overhead.",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Senior Engineering Collective for High-Impact Software | Jobless Coders",
+    description:
+      "Partner with senior engineers to build production web platforms, cross-platform mobile apps, and custom AI workflows.",
+  },
+};
+
 export default function Home() {
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    url: siteConfig.url,
+    description: siteConfig.description,
+  };
+
   return (
     <div className="w-full">
-      {/* 2. Hero */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
       <Hero />
-
-      {/* 3. Proof Section */}
       <ProofSection />
-
-      {/* 4. Selected Work */}
       <WorkSection />
-
-      {/* 5. Services Summaries */}
       <ServicesSection />
-
-      {/* 6. Process */}
       <ProcessSection />
-
-      {/* 7. Compact Tech Grid */}
       <TechSection />
-
-      {/* 8. Team Preview */}
       <TeamSection />
-
-      {/* 9. Contact CTA */}
       <ContactSection />
     </div>
   );

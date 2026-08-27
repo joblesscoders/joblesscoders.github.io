@@ -1,7 +1,13 @@
-﻿import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import Image from "next/image";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/lib/gsap";
 
 export default function TechSection() {
+  const containerRef = useRef<HTMLElement>(null);
+
   const categories = [
     {
       name: "Frontend & Mobile",
@@ -41,11 +47,52 @@ export default function TechSection() {
     },
   ];
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(".tech-header", {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        });
+
+        gsap.from(".tech-card", {
+          opacity: 0,
+          y: 16,
+          duration: 0.4,
+          stagger: 0.07,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".tech-grid",
+            start: "top 85%",
+            once: true,
+          },
+        });
+      });
+
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set([".tech-header", ".tech-card"], { opacity: 1, y: 0 });
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <section className="py-20 sm:py-24 bg-card/30 border-y border-border">
+    <section
+      ref={containerRef}
+      className="py-20 sm:py-24 bg-card/30 border-y border-border"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="max-w-3xl mb-14">
+        <div className="tech-header max-w-3xl mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
             <span>{"// Technology Arsenal"}</span>
           </div>
@@ -58,11 +105,11 @@ export default function TechSection() {
         </div>
 
         {/* Categorized Tech Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="tech-grid grid grid-cols-1 md:grid-cols-3 gap-6">
           {categories.map((cat) => (
             <div
               key={cat.name}
-              className="p-6 sm:p-7 rounded-2xl bg-card border border-border flex flex-col justify-between"
+              className="tech-card p-6 sm:p-7 rounded-2xl bg-card border border-border flex flex-col justify-between"
             >
               <div>
                 <h3 className="text-base sm:text-lg font-bold text-foreground mb-1">
