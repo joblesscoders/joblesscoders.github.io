@@ -9,7 +9,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test:contact": "node scripts/contact-api.test.mjs",
-    "test": "node scripts/contact-api.test.mjs"
+    "test:visibility": "node scripts/verify-visibility.test.mjs",
+    "test": "node scripts/contact-api.test.mjs && node scripts/verify-visibility.test.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

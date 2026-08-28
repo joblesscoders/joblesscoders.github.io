@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import createGlobe, { Globe } from "cobe";
 import GlobeFallback from "./GlobeFallback";
 
@@ -12,9 +12,18 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isSupported, setIsSupported] = useState<boolean | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
   const globeRef = useRef<Globe | null>(null);
   const isVisibleRef = useRef<boolean>(true);
   const isTabActiveRef = useRef<boolean>(true);
+  const isReducedMotionRef = useRef<boolean>(false);
+
+  // Pointer Dragging & Inertia State refs
+  const isDraggingRef = useRef<boolean>(false);
+  const pointerStartRef = useRef<{ x: number; time: number }>({ x: 0, time: 0 });
+  const phiRef = useRef<number>(0);
+  const velocityRef = useRef<number>(0);
 
   useEffect(() => {
     // 1. Eligibility Check: Screen Size (Desktop only >= 768px)
@@ -25,6 +34,7 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
 
     // 2. Eligibility Check: Reduced Motion
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    isReducedMotionRef.current = reducedMotion;
     if (reducedMotion) {
       setIsSupported(false);
       return;
@@ -60,11 +70,13 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
     if (!isSupported || !canvasRef.current || !containerRef.current) return;
 
     const canvas = canvasRef.current;
-    let width = containerRef.current.clientWidth || 360;
-    let phi = 0;
+    let width = containerRef.current.clientWidth || 440;
     let rafId: number | null = null;
 
-    // WebGL Context Lost & Error Event Handlers
+    // Check theme
+    const isDark = document.documentElement.classList.contains("dark");
+
+    // WebGL Context Lost & Restored Event Handlers
     const handleContextLost = (event: Event) => {
       event.preventDefault();
       if (rafId) cancelAnimationFrame(rafId);
@@ -72,11 +84,15 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
         try {
           globeRef.current.destroy();
         } catch {
-          // Ignore cleanup errors on lost context
+          // Ignore cleanup errors
         }
         globeRef.current = null;
       }
       setIsSupported(false);
+    };
+
+    const handleContextRestored = () => {
+      setIsSupported(true);
     };
 
     const handleCreationError = () => {
@@ -84,36 +100,48 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
     };
 
     canvas.addEventListener("webglcontextlost", handleContextLost, false);
+    canvas.addEventListener("webglcontextrestored", handleContextRestored, false);
     canvas.addEventListener("webglcontextcreationerror", handleCreationError, false);
 
-    // Bounded resolution & DPR cap (<= 1.25 to protect low-power/mobile GPUs)
-    const dprCap = Math.min(window.devicePixelRatio || 1, 1.25);
+    // Bounded resolution & DPR cap (1.35 max for high precision with bounded GPU overhead)
+    const dprCap = Math.min(window.devicePixelRatio || 1, 1.35);
 
     try {
       globeRef.current = createGlobe(canvas, {
         devicePixelRatio: dprCap,
         width: width * dprCap,
         height: width * dprCap,
-        phi: 0,
-        theta: 0.25,
-        dark: 1,
-        diffuse: 1.2,
-        mapSamples: 6000, // Reduced from 12k/20k for bounded compute
-        mapBrightness: 5,
-        baseColor: [0.3, 0.3, 0.35],
-        markerColor: [0.65, 0.45, 1], // Violet / Dhaka marker
-        glowColor: [0.15, 0.1, 0.25],
+        phi: phiRef.current,
+        theta: 0.22,
+        dark: isDark ? 1 : 0,
+        diffuse: isDark ? 1.2 : 1.1,
+        mapSamples: 8000,
+        mapBrightness: isDark ? 5 : 4,
+        baseColor: isDark ? [0.28, 0.28, 0.33] : [0.85, 0.85, 0.9],
+        markerColor: [0.65, 0.45, 1], // Studio Violet
+        glowColor: isDark ? [0.15, 0.1, 0.25] : [0.92, 0.9, 0.98],
         markers: [
           // Dhaka, Bangladesh [23.8103, 90.4125]
-          { location: [23.8103, 90.4125], size: 0.09 },
+          { location: [23.8103, 90.4125], size: 0.08 },
+          // London, UK [51.5074, -0.1278]
+          { location: [51.5074, -0.1278], size: 0.06 },
+          // San Francisco, USA [37.7749, -122.4194]
+          { location: [37.7749, -122.4194], size: 0.06 },
         ],
       });
 
-      // Custom restrained render loop
+      // Render loop with ambient rotation, pointer inertia and pause mechanics
       const render = () => {
         if (isVisibleRef.current && isTabActiveRef.current && globeRef.current) {
-          phi += 0.003;
-          globeRef.current.update({ phi });
+          if (!isDraggingRef.current) {
+            // Apply velocity damping and ambient drift
+            phiRef.current += 0.0022 + velocityRef.current;
+            velocityRef.current *= 0.93; // Inertia damping
+            if (Math.abs(velocityRef.current) < 0.00005) {
+              velocityRef.current = 0;
+            }
+          }
+          globeRef.current.update({ phi: phiRef.current });
         }
         rafId = requestAnimationFrame(render);
       };
@@ -124,7 +152,7 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
       return;
     }
 
-    // ResizeObserver to handle container scaling smoothly
+    // ResizeObserver to dynamically update dimensions
     const resizeObserver = new ResizeObserver(() => {
       if (!containerRef.current || !globeRef.current) return;
       const newWidth = containerRef.current.clientWidth;
@@ -138,7 +166,7 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
     });
     resizeObserver.observe(containerRef.current);
 
-    // IntersectionObserver to pause loop when scrolled out of viewport
+    // IntersectionObserver to pause loop when scrolled out of view
     const intersectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -149,7 +177,7 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
     );
     intersectionObserver.observe(containerRef.current);
 
-    // VisibilityChange to pause when user switches browser tabs
+    // VisibilityChange to pause when tab is inactive
     const handleVisibilityChange = () => {
       isTabActiveRef.current = !document.hidden;
     };
@@ -158,6 +186,7 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       canvas.removeEventListener("webglcontextlost", handleContextLost);
+      canvas.removeEventListener("webglcontextrestored", handleContextRestored);
       canvas.removeEventListener("webglcontextcreationerror", handleCreationError);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       resizeObserver.disconnect();
@@ -167,14 +196,51 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
         try {
           globeRef.current.destroy();
         } catch {
-          // Ignore destruction exceptions on unmount
+          // Ignore destroy exceptions
         }
         globeRef.current = null;
       }
     };
   }, [isSupported]);
 
-  // If not supported, render zero-JS SVG fallback
+  // Pointer Interaction Handlers for Desktop Dragging
+  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    // Disable dragging on touch devices or reduced motion
+    if (e.pointerType === "touch" || isReducedMotionRef.current) return;
+
+    isDraggingRef.current = true;
+    pointerStartRef.current = { x: e.clientX, time: performance.now() };
+    velocityRef.current = 0;
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  }, []);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return;
+
+    const currentX = e.clientX;
+    const currentTime = performance.now();
+    const deltaX = currentX - pointerStartRef.current.x;
+    const deltaTime = Math.max(currentTime - pointerStartRef.current.time, 1);
+
+    // Rotate phi with drag movement
+    phiRef.current -= deltaX * 0.005;
+    // Calculate instantaneous velocity for inertia on release
+    velocityRef.current = -(deltaX / deltaTime) * 0.06;
+
+    pointerStartRef.current = { x: currentX, time: currentTime };
+  }, []);
+
+  const handlePointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    try {
+      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    } catch {
+      // Ignore release error
+    }
+  }, []);
+
+  // Fallback to SVG if WebGL is unavailable
   if (isSupported === false) {
     return <GlobeFallback className={className} />;
   }
@@ -182,18 +248,35 @@ export function CobeGlobeClient({ className = "" }: CobeGlobeProps) {
   return (
     <div
       ref={containerRef}
-      aria-hidden="true"
-      className={`relative w-full max-w-[340px] sm:max-w-[400px] aspect-square flex items-center justify-center select-none pointer-events-none ${className}`}
+      aria-label="Interactive 3D Studio Globe"
+      role="region"
+      data-cursor="drag"
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[520px] aspect-square flex items-center justify-center select-none cursor-grab active:cursor-grabbing touch-pan-y ${className}`}
     >
-      {/* Subtle outer glow */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-violet-600/15 via-purple-500/10 to-transparent blur-2xl" />
+      {/* Outer ambient glow */}
+      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-violet-600/20 via-purple-500/10 to-transparent blur-3xl pointer-events-none" />
 
       {/* Canvas */}
       <canvas
         ref={canvasRef}
-        className="w-full h-full object-contain pointer-events-none opacity-90 transition-opacity duration-500"
+        className="w-full h-full object-contain pointer-events-none opacity-95 transition-opacity duration-500"
         style={{ width: "100%", height: "100%", contain: "layout paint size" }}
       />
+
+      {/* Drag Indicator Badge on Desktop Hover */}
+      <div
+        className={`absolute bottom-3 px-3 py-1 rounded-full bg-card/85 backdrop-blur-md border border-border text-[11px] font-mono text-muted-foreground shadow-sm transition-all duration-200 pointer-events-none ${
+          isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
+        }`}
+      >
+        <span className="text-violet-400 font-semibold">DRAG</span> to rotate
+      </div>
     </div>
   );
 }

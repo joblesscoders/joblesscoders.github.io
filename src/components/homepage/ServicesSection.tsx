@@ -4,50 +4,16 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { getAllServices } from "@/content";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAPReveal } from "@/lib/reveal";
 
 export function ServicesSection() {
   const containerRef = useRef<HTMLElement>(null);
   const services = getAllServices();
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".services-header", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        });
-
-        gsap.from(".service-card", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          stagger: 0.06,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".services-grid",
-            start: "top 85%",
-            once: true,
-          },
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set([".services-header", ".service-card"], { opacity: 1, y: 0 });
-      });
-    },
-    { scope: containerRef }
-  );
+  useGSAPReveal(containerRef, [
+    { selector: ".services-header", y: 20, duration: 0.5, start: "top 90%" },
+    { selector: ".service-card", y: 24, stagger: 0.06, duration: 0.5, start: "top 88%" },
+  ]);
 
   return (
     <section
@@ -83,7 +49,7 @@ export function ServicesSection() {
           {services.map((service, index) => (
             <article
               key={service.slug}
-              className="service-card flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200 shadow-sm"
+              className="service-card flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-[border-color,box-shadow,background-color] duration-200 shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">

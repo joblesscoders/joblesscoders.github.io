@@ -16,8 +16,7 @@ import {
   Loader2,
   AlertCircle,
 } from "lucide-react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAPReveal } from "@/lib/reveal";
 import {
   CONTACT_TOPICS,
   CONTACT_LIMITS,
@@ -110,58 +109,11 @@ export default function ContactSection() {
     renderTimeRef.current = Date.now();
   }, []);
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".contact-header", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        });
-
-        gsap.from(".contact-info-col", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".contact-grid-content",
-            start: "top 85%",
-            once: true,
-          },
-        });
-
-        gsap.from(".contact-form-col", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          delay: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".contact-grid-content",
-            start: "top 85%",
-            once: true,
-          },
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set([".contact-header", ".contact-info-col", ".contact-form-col"], {
-          opacity: 1,
-          y: 0,
-        });
-      });
-    },
-    { scope: containerRef }
-  );
+  useGSAPReveal(containerRef, [
+    { selector: ".contact-header", y: 20, duration: 0.5, start: "top 90%" },
+    { selector: ".contact-info-col", y: 24, duration: 0.5, start: "top 88%" },
+    { selector: ".contact-form-col", y: 24, duration: 0.5, delay: 0.1, start: "top 88%" },
+  ]);
 
   const handleChange = (field: keyof ContactPayload, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));

@@ -2,8 +2,7 @@
 
 import React, { useRef } from "react";
 import Image from "next/image";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAPReveal } from "@/lib/reveal";
 
 export default function TechSection() {
   const containerRef = useRef<HTMLElement>(null);
@@ -47,43 +46,10 @@ export default function TechSection() {
     },
   ];
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".tech-header", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        });
-
-        gsap.from(".tech-card", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          stagger: 0.07,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".tech-grid",
-            start: "top 85%",
-            once: true,
-          },
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set([".tech-header", ".tech-card"], { opacity: 1, y: 0 });
-      });
-    },
-    { scope: containerRef }
-  );
+  useGSAPReveal(containerRef, [
+    { selector: ".tech-header", y: 20, duration: 0.5, start: "top 90%" },
+    { selector: ".tech-card", y: 24, stagger: 0.07, duration: 0.5, start: "top 88%" },
+  ]);
 
   return (
     <section

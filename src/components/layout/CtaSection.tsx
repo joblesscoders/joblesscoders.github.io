@@ -4,8 +4,7 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAPReveal } from "@/lib/reveal";
 
 interface CtaSectionProps {
   title?: string;
@@ -28,30 +27,9 @@ export default function CtaSection({
 }: CtaSectionProps) {
   const containerRef = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".cta-box", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(".cta-box", { opacity: 1, y: 0 });
-      });
-    },
-    { scope: containerRef }
-  );
+  useGSAPReveal(containerRef, [
+    { selector: ".cta-box", y: 20, duration: 0.5, start: "top 90%" },
+  ]);
 
   return (
     <section

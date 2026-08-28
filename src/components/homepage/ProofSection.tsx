@@ -2,8 +2,7 @@
 
 import React, { useRef } from "react";
 import { Users, Globe2, Cpu, ShieldCheck } from "lucide-react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAPReveal } from "@/lib/reveal";
 
 export function ProofSection() {
   const containerRef = useRef<HTMLElement>(null);
@@ -35,31 +34,9 @@ export function ProofSection() {
     },
   ];
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".proof-item", {
-          opacity: 0,
-          y: 12,
-          duration: 0.35,
-          stagger: 0.06,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 90%",
-            once: true,
-          },
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(".proof-item", { opacity: 1, y: 0 });
-      });
-    },
-    { scope: containerRef }
-  );
+  useGSAPReveal(containerRef, [
+    { selector: ".proof-item", y: 16, stagger: 0.06, duration: 0.45, start: "top 92%" },
+  ]);
 
   return (
     <section

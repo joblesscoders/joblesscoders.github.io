@@ -4,50 +4,16 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { getPublishedProjects } from "@/content";
 import { ArrowRight, ShieldCheck, ExternalLink, Github, Lock } from "lucide-react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAPReveal } from "@/lib/reveal";
 
 export function WorkSection() {
   const containerRef = useRef<HTMLElement>(null);
   const projects = getPublishedProjects();
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".work-header", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        });
-
-        gsap.from(".work-card", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          stagger: 0.08,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".work-grid",
-            start: "top 85%",
-            once: true,
-          },
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set([".work-header", ".work-card"], { opacity: 1, y: 0 });
-      });
-    },
-    { scope: containerRef }
-  );
+  useGSAPReveal(containerRef, [
+    { selector: ".work-header", y: 20, duration: 0.5, start: "top 90%" },
+    { selector: ".work-card", y: 24, stagger: 0.08, duration: 0.5, start: "top 88%" },
+  ]);
 
   return (
     <section id="work" ref={containerRef} className="py-20 sm:py-24">
@@ -79,7 +45,7 @@ export function WorkSection() {
           {projects.map((project) => (
             <article
               key={project.slug}
-              className="work-card flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200 shadow-sm hover:-translate-y-0.5"
+              className="work-card flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-[border-color,box-shadow,transform] duration-200 shadow-sm hover:-translate-y-0.5"
             >
               <div>
                 <div className="flex items-center justify-between gap-4 mb-3">
@@ -102,14 +68,34 @@ export function WorkSection() {
                   </Link>
                 </h3>
 
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                   {project.summary}
                 </p>
+
+                {/* Challenge & Contribution Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3.5 rounded-xl bg-muted/40 border border-border/80 text-xs mb-5">
+                  <div>
+                    <span className="font-mono font-semibold text-foreground uppercase tracking-wider text-[10px] block mb-1">
+                      The Challenge
+                    </span>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {project.problem}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="font-mono font-semibold text-violet-400 uppercase tracking-wider text-[10px] block mb-1">
+                      Our Contribution
+                    </span>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {project.teamContribution}
+                    </p>
+                  </div>
+                </div>
 
                 {/* Outcomes */}
                 <div className="space-y-2 mb-6">
                   <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider block">
-                    Verified Outcomes
+                    Verified Production Outcomes
                   </span>
                   {project.verifiableOutcomes.map((outcome, i) => (
                     <div key={i} className="flex items-start gap-2 text-xs text-foreground">
@@ -120,7 +106,7 @@ export function WorkSection() {
                 </div>
 
                 {/* Tech Stack */}
-                <div className="flex flex-wrap gap-1.5 mb-8">
+                <div className="flex flex-wrap gap-1.5 mb-6">
                   {project.stack.map((item) => (
                     <span
                       key={item}

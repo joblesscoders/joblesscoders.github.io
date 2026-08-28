@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, createContext, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { IconMenu2, IconX } from "@tabler/icons-react";
+import { IconMenu2, IconX, IconChevronDown } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import logo from "@/../public/assets/Jobless_coders_colored.png";
 
@@ -48,7 +48,7 @@ interface NavItemsProps {
 }
 
 interface MegaMenuItemProps {
-  setActive: (item: string) => void;
+  setActive: (item: string | null) => void;
   active: string | null;
   item: string;
   link?: string;
@@ -74,7 +74,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
     <NavbarContext.Provider value={{ visible }}>
       <header
         role="banner"
-        className={cn("sticky inset-x-0 top-5 z-40 w-full transition-all duration-300", className)}
+        className={cn("sticky inset-x-0 top-4 z-40 w-full transition-all duration-300", className)}
       >
         {React.Children.map(children, (child) =>
           React.isValidElement(child)
@@ -93,7 +93,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       className={cn(
         "relative z-[60] mx-auto hidden flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex transition-all duration-300 ease-out",
         visible
-          ? "w-full max-w-3xl bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md shadow-lg border border-border mt-2"
+          ? "w-full max-w-4xl bg-white/90 dark:bg-neutral-950/90 backdrop-blur-md shadow-lg border border-border mt-1"
           : "w-full max-w-7xl",
         className
       )}
@@ -111,34 +111,76 @@ export const MegaMenuItem = ({
   children,
   onItemClick,
 }: MegaMenuItemProps) => {
-  const content = (
-    <span className="cursor-pointer text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white transition-colors duration-150 relative z-20 font-medium py-1">
-      {item}
-    </span>
-  );
+  const itemRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const isOpen = active === item;
 
-  return (
-    <div
-      onMouseEnter={() => (children ? setActive(item) : null)}
-      className="relative px-3 py-1.5"
-    >
-      {link && !children ? (
+  // Handle click outside to close
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (itemRef.current && !itemRef.current.contains(e.target as Node)) {
+        setActive(null);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActive(null);
+        triggerRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, setActive]);
+
+  if (link && !children) {
+    return (
+      <div className="relative px-2 py-1">
         <Link
           href={link}
           onClick={onItemClick}
-          className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-2 rounded px-2 py-1 inline-flex items-center"
+          className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white transition-colors duration-150 relative z-20 font-medium px-3 py-1.5 rounded-lg hover:bg-muted/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 inline-flex items-center min-h-[40px]"
         >
-          {content}
+          {item}
         </Link>
-      ) : (
-        content
-      )}
+      </div>
+    );
+  }
 
-      {children && active === item && (
-        <div className="absolute top-[calc(100%_+_0.8rem)] left-1/2 -translate-x-1/2 pt-2 transition-all duration-200">
-          <div className="bg-card backdrop-blur-md rounded-2xl overflow-hidden border border-border shadow-xl p-4 w-max">
-            {children}
-          </div>
+  return (
+    <div
+      ref={itemRef}
+      onMouseEnter={() => children && setActive(item)}
+      onMouseLeave={() => children && setActive(null)}
+      className="relative px-2 py-1"
+    >
+      <button
+        ref={triggerRef}
+        type="button"
+        onClick={() => setActive(isOpen ? null : item)}
+        aria-expanded={isOpen}
+        aria-haspopup="true"
+        aria-controls={isOpen ? "solutions-mega-menu" : undefined}
+        className="cursor-pointer text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white transition-colors duration-150 relative z-20 font-medium px-3 py-1.5 rounded-lg hover:bg-muted/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 inline-flex items-center gap-1 min-h-[40px]"
+      >
+        <span>{item}</span>
+        <IconChevronDown
+          className={cn("w-3.5 h-3.5 text-muted-foreground transition-transform duration-200", isOpen && "rotate-180")}
+          aria-hidden="true"
+        />
+      </button>
+
+      {children && isOpen && (
+        <div className="absolute top-[calc(100%_+_0.6rem)] left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 z-50">
+          {children}
         </div>
       )}
     </div>
@@ -150,7 +192,6 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
 
   return (
     <div
-      onMouseLeave={() => setActive(null)}
       className={cn(
         "hidden flex-1 flex-row items-center justify-center space-x-1 text-sm font-medium text-muted-foreground lg:flex",
         className
@@ -163,7 +204,10 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           active={active}
           item={item.name}
           link={item.link}
-          onItemClick={onItemClick}
+          onItemClick={() => {
+            setActive(null);
+            if (onItemClick) onItemClick();
+          }}
         >
           {item.children}
         </MegaMenuItem>
@@ -177,7 +221,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
     <div
       className={cn(
         "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-2 py-2 lg:hidden transition-all duration-300 ease-out",
-        visible && "bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md rounded-2xl border border-border shadow-md",
+        visible && "bg-white/90 dark:bg-neutral-950/90 backdrop-blur-md rounded-2xl border border-border shadow-md",
         className
       )}
     >
@@ -209,6 +253,14 @@ export const MobileNavMenu = ({
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    // Focus first focusable element inside menu
+    const focusable = menuRef.current?.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable && focusable.length > 0) {
+      focusable[0].focus();
+    }
+
     // Escape key listener to close menu
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -229,19 +281,28 @@ export const MobileNavMenu = ({
   if (!isOpen) return null;
 
   return (
-    <div
-      ref={menuRef}
-      id="mobile-nav-menu"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Mobile Navigation"
-      className={cn(
-        "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-2xl bg-card p-6 shadow-2xl border border-border transition-all duration-200",
-        className
-      )}
-    >
-      {children}
-    </div>
+    <>
+      {/* Backdrop overlay */}
+      <div
+        onClick={onClose}
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+        aria-hidden="true"
+      />
+
+      <div
+        ref={menuRef}
+        id="mobile-nav-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile Navigation"
+        className={cn(
+          "absolute inset-x-0 top-16 z-50 flex w-full max-h-[calc(100vh-6rem)] overflow-y-auto flex-col items-start justify-start gap-4 rounded-2xl bg-card p-6 shadow-2xl border border-border transition-all duration-200",
+          className
+        )}
+      >
+        {children}
+      </div>
+    </>
   );
 };
 
@@ -260,7 +321,7 @@ export const MobileNavToggle = ({
       aria-expanded={isOpen}
       aria-controls="mobile-nav-menu"
       aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-      className="p-3 min-h-[44px] min-w-[44px] rounded-xl text-foreground hover:bg-muted transition-colors flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-2"
+      className="p-3 min-h-[48px] min-w-[48px] rounded-xl text-foreground hover:bg-muted transition-colors flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-2 cursor-pointer"
     >
       {isOpen ? <IconX className="w-6 h-6" /> : <IconMenu2 className="w-6 h-6" />}
     </button>

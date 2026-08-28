@@ -11,6 +11,9 @@ import Analytics from "@/components/Analytics";
 import { WebVitals } from "@/components/WebVitals";
 import StructuredData from "@/components/StructuredData";
 import { siteConfig } from "@/lib/site-config";
+import ScrollTriggerProvider from "@/components/layout/ScrollTriggerProvider";
+import { DevOpacityDiagnostic } from "@/components/DevOpacityDiagnostic";
+import CursorCompanion from "@/components/layout/CursorCompanion";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -107,6 +110,9 @@ export default function RootLayout({
             Skip to content
           </a>
           <ScrollProgress />
+          <ScrollTriggerProvider />
+          <DevOpacityDiagnostic />
+          <CursorCompanion />
           <Analytics />
           <WebVitals />
           <MyNavbar />

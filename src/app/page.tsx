@@ -4,6 +4,7 @@ import { siteConfig } from "@/lib/site-config";
 import Hero from "@/components/homepage/hero";
 import { ProofSection } from "@/components/homepage/ProofSection";
 import { WorkSection } from "@/components/homepage/WorkSection";
+import { SolutionsOverviewSection } from "@/components/homepage/SolutionsOverviewSection";
 import { ServicesSection } from "@/components/homepage/ServicesSection";
 import { ProcessSection } from "@/components/homepage/ProcessSection";
 import TechSection from "@/components/homepage/techSection";
@@ -49,13 +50,31 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
+      {/* 1. Hero with Globe */}
       <Hero />
+
+      {/* 2. Compact Trust / Proof Strip */}
       <ProofSection />
+
+      {/* 3. Selected Work (Visually Prominent) */}
       <WorkSection />
+
+      {/* 4. Solutions Overview */}
+      <SolutionsOverviewSection />
+
+      {/* 5. Capabilities / Disciplines */}
       <ServicesSection />
+
+      {/* 6. Disciplined Engineering Process */}
       <ProcessSection />
+
+      {/* 7. Technical Arsenal */}
       <TechSection />
+
+      {/* 8. The Collective Team */}
       <TeamSection />
+
+      {/* 9. Final Contact & Inquiry */}
       <ContactSection />
     </div>
   );

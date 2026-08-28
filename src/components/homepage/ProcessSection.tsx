@@ -2,8 +2,7 @@
 
 import React, { useRef } from "react";
 import { Compass, Palette, Code2, Rocket } from "lucide-react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAPReveal } from "@/lib/reveal";
 
 export function ProcessSection() {
   const containerRef = useRef<HTMLElement>(null);
@@ -39,43 +38,10 @@ export function ProcessSection() {
     },
   ];
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".process-header", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 88%",
-            once: true,
-          },
-        });
-
-        gsap.from(".process-step", {
-          opacity: 0,
-          y: 16,
-          duration: 0.4,
-          stagger: 0.07,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".process-grid",
-            start: "top 85%",
-            once: true,
-          },
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set([".process-header", ".process-step"], { opacity: 1, y: 0 });
-      });
-    },
-    { scope: containerRef }
-  );
+  useGSAPReveal(containerRef, [
+    { selector: ".process-header", y: 20, duration: 0.5, start: "top 90%" },
+    { selector: ".process-step", y: 24, stagger: 0.07, duration: 0.5, start: "top 88%" },
+  ]);
 
   return (
     <section ref={containerRef} className="py-20 sm:py-24">
@@ -100,7 +66,7 @@ export function ProcessSection() {
             return (
               <div
                 key={item.step}
-                className="process-step flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200"
+                className="process-step flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-card border border-border hover:border-violet-500/30 transition-[border-color,box-shadow,background-color] duration-200"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">

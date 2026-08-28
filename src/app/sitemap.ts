@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site-config";
 import { getAllServices, getPublishedProjects } from "@/content";
+import { SOLUTIONS } from "@/content/solutions";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
@@ -8,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const services = getAllServices();
   const projects = getPublishedProjects();
+  const solutions = Object.values(SOLUTIONS);
 
   const baseRoutes: MetadataRoute.Sitemap = [
     {
@@ -42,6 +44,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  const solutionRoutes: MetadataRoute.Sitemap = solutions.map((sol) => ({
+    url: `${baseUrl}/solutions/${sol.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.85,
+  }));
+
   const serviceRoutes: MetadataRoute.Sitemap = services.map((s) => ({
     url: `${baseUrl}/services/${s.slug}`,
     lastModified: now,
@@ -56,5 +65,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
-  return [...baseRoutes, ...serviceRoutes, ...projectRoutes];
+  return [...baseRoutes, ...solutionRoutes, ...serviceRoutes, ...projectRoutes];
 }
