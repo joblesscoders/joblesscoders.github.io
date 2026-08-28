@@ -116,7 +116,7 @@ export default function RootLayout({
           <Analytics />
           <WebVitals />
           <MyNavbar />
-          <main id="main-content" className="mt-20 md:pt-10 pb-24 sm:pb-28">
+          <main id="main-content" className="pb-24 sm:pb-28">
             {children}
             <MyDock />
           </main>
@@ -126,4 +126,3 @@ export default function RootLayout({
     </html>
   );
 }
-

@@ -37,7 +37,7 @@ export default function EcommerceSolutionPage() {
         "@type": "ListItem",
         position: 2,
         name: "Solutions",
-        item: `${siteConfig.url}/#solutions`,
+        item: `${siteConfig.url}/solutions`,
       },
       {
         "@type": "ListItem",

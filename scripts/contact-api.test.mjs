@@ -74,7 +74,7 @@ async function waitForServer(retries = 35, delayMs = 600) {
 async function runSuite() {
   console.log("🚀 Starting Next.js test server with Mocked Provider (Zero external emails)...\n");
 
-  const server = spawn("npx", ["next", "start", "-p", String(PORT)], {
+  const server = spawn("npx", ["next", "start", "-H", "127.0.0.1", "-p", String(PORT)], {
     env: {
       ...process.env,
       NODE_ENV: "production",

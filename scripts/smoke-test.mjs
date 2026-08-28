@@ -48,7 +48,7 @@ async function runSmokeTests() {
   console.log("🚀 Starting Next.js test server...");
   const port = 3892;
 
-  const server = spawn("npx", ["next", "start", "-p", String(port)], {
+  const server = spawn("npx", ["next", "start", "-H", "127.0.0.1", "-p", String(port)], {
     shell: true,
     stdio: "pipe",
   });
@@ -91,6 +91,7 @@ async function runSmokeTests() {
   const routesToTest = [
     { path: "/", expectedStatus: 200, name: "Homepage" },
     { path: "/services", expectedStatus: 200, name: "Services Index", hasBreadcrumbs: true },
+    { path: "/solutions", expectedStatus: 200, name: "Solutions Index", hasBreadcrumbs: true },
     { path: "/work", expectedStatus: 200, name: "Work Index", hasBreadcrumbs: true },
     { path: "/about", expectedStatus: 200, name: "About Page", hasBreadcrumbs: true },
     { path: "/contact", expectedStatus: 200, name: "Contact Page", hasBreadcrumbs: true },

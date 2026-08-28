@@ -6,10 +6,23 @@ import { ArrowRight, CheckCircle2, AlertTriangle, ShieldCheck, HelpCircle } from
 import { SolutionItem } from "@/content/solutions";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import CtaSection from "@/components/layout/CtaSection";
+import AnimatedFaq from "@/components/ui/AnimatedFaq";
 import { useGSAPReveal } from "@/lib/reveal";
 
 export function SolutionDetailView({ solution }: { solution: SolutionItem }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: solution.faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
 
   useGSAPReveal(containerRef, [
     { selector: ".solution-hero", y: 20, duration: 0.5, start: "top 90%" },
@@ -17,11 +30,15 @@ export function SolutionDetailView({ solution }: { solution: SolutionItem }) {
   ]);
 
   return (
-    <div ref={containerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div ref={containerRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* Breadcrumbs */}
       <Breadcrumbs
         items={[
-          { label: "Solutions", href: "/#solutions" },
+          { label: "Solutions", href: "/solutions" },
           { label: solution.shortTitle },
         ]}
       />
@@ -194,14 +211,7 @@ export function SolutionDetailView({ solution }: { solution: SolutionItem }) {
             Frequently Asked Questions
           </h2>
         </div>
-        <div className="space-y-4 max-w-4xl">
-          {solution.faqs.map((faq, i) => (
-            <div key={i} className="solution-card p-6 rounded-2xl bg-card border border-border">
-              <h3 className="text-base font-bold text-foreground mb-2">{faq.question}</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{faq.answer}</p>
-            </div>
-          ))}
-        </div>
+        <AnimatedFaq items={solution.faqs} className="max-w-4xl" />
       </section>
 
       {/* Final CTA */}

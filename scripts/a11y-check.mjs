@@ -6,6 +6,7 @@ const BASE_URL = `http://localhost:${PORT}`;
 
 const routes = [
   '/',
+  '/solutions',
   '/services',
   '/services/web-dev',
   '/services/mobile-dev',
@@ -42,7 +43,7 @@ async function waitForServer(retries = 30, delayMs = 1000) {
 
 async function runAudit() {
   console.log('🚀 Starting Next.js test server for Accessibility & Landmark Audit...');
-  const server = spawn('npx', ['next', 'start', '-p', String(PORT)], {
+  const server = spawn('npx', ['next', 'start', '-H', '127.0.0.1', '-p', String(PORT)], {
     stdio: 'ignore',
     shell: true,
   });

@@ -43,6 +43,7 @@ for (const compPath of auditedComponents) {
 
 // 2. Verify all 6 solution routes exist with valid exports
 const solutionRoutes = [
+  "app/solutions/page.tsx",
   "app/solutions/ecommerce/page.tsx",
   "app/solutions/portfolio-websites/page.tsx",
   "app/solutions/saas-mvp/page.tsx",

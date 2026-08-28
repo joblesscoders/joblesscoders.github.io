@@ -26,6 +26,7 @@ export default function MyNavbar() {
     },
     {
       name: "Solutions",
+      link: "/solutions",
       children: <SolutionsMegaPanel />,
     },
     {
@@ -75,25 +76,35 @@ export default function MyNavbar() {
               Work
             </Link>
 
-            {/* Solutions Accordion */}
+            {/* Solutions overview link + disclosure */}
             <div className="w-full">
-              <button
-                type="button"
-                onClick={() => setIsMobileSolutionsOpen(!isMobileSolutionsOpen)}
-                aria-expanded={isMobileSolutionsOpen}
-                className="w-full flex items-center justify-between text-foreground font-medium hover:text-violet-400 py-3 px-3 min-h-[48px] rounded-xl hover:bg-muted transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 cursor-pointer"
-              >
-                <span>Solutions</span>
-                <IconChevronDown
-                  className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${
-                    isMobileSolutionsOpen ? "rotate-180" : ""
-                  }`}
-                  aria-hidden="true"
-                />
-              </button>
+              <div className="flex items-center rounded-xl hover:bg-muted focus-within:bg-muted transition-colors">
+                <Link
+                  href="/solutions"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex-1 text-foreground font-medium hover:text-violet-400 py-3 pl-3 min-h-[48px] flex items-center rounded-l-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500"
+                >
+                  Solutions
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setIsMobileSolutionsOpen(!isMobileSolutionsOpen)}
+                  aria-label={`${isMobileSolutionsOpen ? "Close" : "Open"} solutions menu`}
+                  aria-expanded={isMobileSolutionsOpen}
+                  aria-controls="mobile-solutions-menu"
+                  className="px-4 min-h-[48px] min-w-[48px] flex items-center justify-center rounded-r-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 cursor-pointer"
+                >
+                  <IconChevronDown
+                    className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${
+                      isMobileSolutionsOpen ? "rotate-180" : ""
+                    }`}
+                    aria-hidden="true"
+                  />
+                </button>
+              </div>
 
               {isMobileSolutionsOpen && (
-                <div className="pl-4 pr-2 py-2 space-y-1 bg-muted/30 rounded-xl mt-1 border border-border/50">
+                <div id="mobile-solutions-menu" className="pl-4 pr-2 py-2 space-y-1 bg-muted/30 rounded-xl mt-1 border border-border/50">
                   {DELIVERABLE_LINKS.map((item) => (
                     <Link
                       key={item.name}

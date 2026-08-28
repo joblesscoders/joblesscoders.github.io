@@ -6,6 +6,7 @@ const BASE_URL = `http://localhost:${PORT}`;
 
 const routes = [
   { path: '/', expectedType: 'WebSite', expectedH1: 'Senior Engineering Collective' },
+  { path: '/solutions', expectedType: 'CollectionPage', expectedH1: 'Solutions Engineered for Specific Growth Milestones' },
   { path: '/services', expectedType: 'CollectionPage', expectedH1: 'What We Build & Deliver' },
   { path: '/services/web-dev', expectedType: 'Service', expectedH1: 'Full-Stack Web Development' },
   { path: '/services/mobile-dev', expectedType: 'Service', expectedH1: 'Mobile App Development' },
@@ -42,7 +43,7 @@ async function waitForServer(retries = 30, delayMs = 1000) {
 
 async function runSeoAudit() {
   console.log('🚀 Starting Next.js test server for Technical & On-Page SEO Audit...');
-  const server = spawn('npx', ['next', 'start', '-p', String(PORT)], {
+  const server = spawn('npx', ['next', 'start', '-H', '127.0.0.1', '-p', String(PORT)], {
     stdio: 'ignore',
     shell: true,
   });
@@ -92,6 +93,7 @@ async function runSeoAudit() {
   assert(sitemapRes.status === 200, '[/sitemap.xml] Status is 200 OK');
   assert(!sitemapRes.body.includes('enterprise-rag-assistant'), '[/sitemap.xml] Excludes draft projects');
   assert(sitemapRes.body.includes('/services/web-dev'), '[/sitemap.xml] Includes public services');
+  assert(sitemapRes.body.includes('/solutions'), '[/sitemap.xml] Includes solutions overview');
   assert(sitemapRes.body.includes('/work/studio-marketing-platform'), '[/sitemap.xml] Includes published work');
   console.log('');
 

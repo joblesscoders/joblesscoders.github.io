@@ -7,7 +7,6 @@ import { siteConfig } from "@/lib/site-config";
 import {
   CheckCircle2,
   Terminal,
-  ChevronDown,
   ArrowRight,
   ShieldAlert,
   Layers,
@@ -15,6 +14,7 @@ import {
 } from "lucide-react";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import CtaSection from "@/components/layout/CtaSection";
+import AnimatedFaq from "@/components/ui/AnimatedFaq";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -123,8 +123,23 @@ export default async function ServiceDetailPage({ params }: Props) {
     ],
   };
 
+  const faqSchema = service.faqs?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: service.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      }
+    : null;
+
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
@@ -133,6 +148,12 @@ export default async function ServiceDetailPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       {/* Breadcrumbs */}
       <Breadcrumbs
         items={[
@@ -326,25 +347,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           <h2 id="faqs-heading" className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
             Frequently Asked Technical Questions
           </h2>
-          <div className="space-y-4">
-            {service.faqs.map((faq, i) => (
-              <details
-                key={i}
-                className="group rounded-xl bg-card border border-border p-5 transition-colors [&_summary::-webkit-details-marker]:hidden"
-              >
-                <summary className="flex cursor-pointer items-center justify-between gap-4 font-semibold text-foreground text-sm sm:text-base min-h-[48px] py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded">
-                  <span>{faq.question}</span>
-                  <ChevronDown
-                    className="w-4 h-4 text-muted-foreground transition-transform duration-200 group-open:rotate-180 shrink-0"
-                    aria-hidden="true"
-                  />
-                </summary>
-                <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed pt-3 border-t border-border/60">
-                  {faq.answer}
-                </p>
-              </details>
-            ))}
-          </div>
+          <AnimatedFaq items={service.faqs} />
         </section>
       )}
 

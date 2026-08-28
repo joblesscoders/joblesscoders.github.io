@@ -12,15 +12,15 @@ export const SOLUTIONS_DATA = [
     short: "High-throughput headless storefronts, Stripe/checkout integrations, and sub-second catalog navigation.",
     icon: ShoppingCart,
     tag: "Revenue Systems",
-    metrics: "Sub-second checkout & 99.9% uptime",
+    metrics: "Fast catalog UX & resilient checkout",
   },
   {
     slug: "portfolio-websites",
     title: "Portfolio & Brand Websites",
-    short: "Editorial, accessible brand experiences with micro-interactions, responsive typography, and perfect Core Web Vitals.",
+    short: "Editorial, accessible brand experiences with micro-interactions, responsive typography, and strict performance budgets.",
     icon: Globe,
     tag: "Brand Architecture",
-    metrics: "100 Lighthouse performance & SEO score",
+    metrics: "Accessible, SEO-ready, motion-rich builds",
   },
   {
     slug: "saas-mvp",
@@ -28,7 +28,7 @@ export const SOLUTIONS_DATA = [
     short: "Rapid concept-to-production engineering with Next.js 15, PostgreSQL, multi-tenant auth, and billing infrastructure.",
     icon: Rocket,
     tag: "Velocity & Product",
-    metrics: "4 to 6 week MVP sprint cycles",
+    metrics: "Focused delivery in defined milestones",
   },
   {
     slug: "business-platforms",
@@ -44,7 +44,7 @@ export const SOLUTIONS_DATA = [
     short: "Custom RAG document search pipelines, deterministic LLM tool chains, and high-throughput vector database APIs.",
     icon: Cpu,
     tag: "AI & Vector",
-    metrics: "Sub-500ms vector search latency",
+    metrics: "Measured retrieval quality & observable pipelines",
   },
   {
     slug: "mobile-apps",
@@ -52,11 +52,11 @@ export const SOLUTIONS_DATA = [
     short: "Cross-platform React Native & Expo mobile apps for iOS and Android with offline-first data sync and biometric auth.",
     icon: Smartphone,
     tag: "iOS & Android",
-    metrics: "90%+ shared codebase parity",
+    metrics: "Shared codebase with native integrations",
   },
 ];
 
-export function SolutionsOverviewSection() {
+export function SolutionsOverviewSection({ asPage = false }: { asPage?: boolean }) {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAPReveal(containerRef, [
@@ -65,7 +65,11 @@ export function SolutionsOverviewSection() {
   ]);
 
   return (
-    <section id="solutions" ref={containerRef} className="py-20 sm:py-24 bg-card/40 border-y border-border">
+    <section
+      id="solutions"
+      ref={containerRef}
+      className={`${asPage ? "pt-8 pb-20 sm:pt-10 sm:pb-24" : "py-20 sm:py-24"} bg-card/40 border-y border-border`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="solutions-header flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
@@ -73,9 +77,15 @@ export function SolutionsOverviewSection() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
               <span>{"// Dedicated Solutions"}</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              Engineered for Specific Growth Milestones
-            </h2>
+            {asPage ? (
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+                Solutions Engineered for Specific Growth Milestones
+              </h1>
+            ) : (
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+                Engineered for Specific Growth Milestones
+              </h2>
+            )}
             <p className="mt-2 text-sm sm:text-base text-muted-foreground max-w-xl">
               Turnkey architectural solutions tailored to product launches, enterprise migrations, and automated AI pipelines.
             </p>

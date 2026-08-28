@@ -111,7 +111,7 @@ async function waitForServer(retries = 35, delayMs = 600) {
 async function runBrowserQualification() {
   console.log("🌐 Starting Full Browser Qualification Suite...\n");
 
-  const nextServer = spawn("npx", ["next", "start", "-p", String(NEXT_PORT)], {
+  const nextServer = spawn("npx", ["next", "start", "-H", "127.0.0.1", "-p", String(NEXT_PORT)], {
     env: {
       ...process.env,
       NODE_ENV: "production",

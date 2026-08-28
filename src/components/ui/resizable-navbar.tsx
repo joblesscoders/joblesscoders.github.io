@@ -162,21 +162,36 @@ export const MegaMenuItem = ({
       onMouseLeave={() => children && setActive(null)}
       className="relative px-2 py-1"
     >
-      <button
-        ref={triggerRef}
-        type="button"
-        onClick={() => setActive(isOpen ? null : item)}
-        aria-expanded={isOpen}
-        aria-haspopup="true"
-        aria-controls={isOpen ? "solutions-mega-menu" : undefined}
-        className="cursor-pointer text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white transition-colors duration-150 relative z-20 font-medium px-3 py-1.5 rounded-lg hover:bg-muted/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 inline-flex items-center gap-1 min-h-[40px]"
-      >
-        <span>{item}</span>
-        <IconChevronDown
-          className={cn("w-3.5 h-3.5 text-muted-foreground transition-transform duration-200", isOpen && "rotate-180")}
-          aria-hidden="true"
-        />
-      </button>
+      <div className="relative z-20 inline-flex items-center rounded-lg hover:bg-muted/50 focus-within:bg-muted/50">
+        {link ? (
+          <Link
+            href={link}
+            onClick={onItemClick}
+            className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white transition-colors duration-150 font-medium pl-3 pr-1 py-1.5 rounded-l-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 inline-flex items-center min-h-[40px]"
+          >
+            {item}
+          </Link>
+        ) : (
+          <span className="pl-3 pr-1 py-1.5 font-medium text-neutral-600 dark:text-neutral-300">
+            {item}
+          </span>
+        )}
+        <button
+          ref={triggerRef}
+          type="button"
+          onClick={() => setActive(isOpen ? null : item)}
+          aria-label={`${isOpen ? "Close" : "Open"} ${item} menu`}
+          aria-expanded={isOpen}
+          aria-haspopup="true"
+          aria-controls="solutions-mega-menu"
+          className="cursor-pointer text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white transition-colors duration-150 px-2.5 py-1.5 rounded-r-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 inline-flex items-center justify-center min-h-[40px] min-w-[36px]"
+        >
+          <IconChevronDown
+            className={cn("w-3.5 h-3.5 text-muted-foreground transition-transform duration-200", isOpen && "rotate-180")}
+            aria-hidden="true"
+          />
+        </button>
+      </div>
 
       {children && isOpen && (
         <div className="absolute top-[calc(100%_+_0.6rem)] left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 z-50">

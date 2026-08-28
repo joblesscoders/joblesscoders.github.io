@@ -77,7 +77,7 @@ export const NEED_LINKS = [
   {
     name: "Improve Performance & SEO",
     href: "/solutions/portfolio-websites",
-    description: "Sub-second LCP & semantic schema ranking",
+    description: "Core Web Vitals, technical SEO & semantic structure",
     icon: Zap,
   },
   {
