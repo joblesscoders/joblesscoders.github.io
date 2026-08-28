@@ -11,8 +11,8 @@ export default function TeamSection() {
   const team = getAllTeamMembers();
 
   useGSAPReveal(containerRef, [
-    { selector: ".team-header", y: 20, duration: 0.5, start: "top 90%" },
-    { selector: ".team-card", y: 24, stagger: 0.05, duration: 0.5, start: "top 88%" },
+    { selector: ".team-header", y: 20, duration: 0.6, start: "top 85%" },
+    { selector: ".team-card", y: 20, stagger: 0.08, duration: 0.6, start: "top 85%" },
   ]);
 
   return (
@@ -21,7 +21,7 @@ export default function TeamSection() {
         {/* Section Header */}
         <div className="team-header flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-400 text-xs font-mono mb-3">
               <span>{"// The Collective"}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
@@ -33,7 +33,7 @@ export default function TeamSection() {
           </div>
           <Link
             href="/about"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-500 dark:hover:text-violet-300 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded"
           >
             <span>Learn more about the team</span>
             <ArrowRight className="w-4 h-4" />
@@ -49,17 +49,17 @@ export default function TeamSection() {
             >
               <div>
                 <div className="flex items-center justify-between gap-3 mb-3">
-                  <span className="text-xs font-mono text-violet-400 font-semibold">
+                  <span className="text-xs font-mono text-violet-600 dark:text-violet-400 font-semibold">
                     @{member.handle}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span className="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400" />
                     <span>Senior</span>
                   </span>
                 </div>
 
                 <h3 className="text-lg font-bold text-foreground">{member.name}</h3>
-                <p className="text-xs font-medium text-violet-400 mb-3">{member.role}</p>
+                <p className="text-xs font-medium text-violet-600 dark:text-violet-400 mb-3">{member.role}</p>
 
                 <p className="text-xs text-muted-foreground leading-relaxed mb-5">
                   {member.bio}

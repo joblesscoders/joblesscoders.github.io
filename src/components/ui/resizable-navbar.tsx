@@ -113,7 +113,24 @@ export const MegaMenuItem = ({
 }: MegaMenuItemProps) => {
   const itemRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const leaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isOpen = active === item;
+
+  const handleMouseEnter = () => {
+    if (!children) return;
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
+    }
+    setActive(item);
+  };
+
+  const handleMouseLeave = () => {
+    if (!children) return;
+    leaveTimerRef.current = setTimeout(() => {
+      setActive(null);
+    }, 150);
+  };
 
   // Handle click outside to close
   useEffect(() => {
@@ -141,6 +158,14 @@ export const MegaMenuItem = ({
     };
   }, [isOpen, setActive]);
 
+  useEffect(() => {
+    return () => {
+      if (leaveTimerRef.current) {
+        clearTimeout(leaveTimerRef.current);
+      }
+    };
+  }, []);
+
   if (link && !children) {
     return (
       <div className="relative px-2 py-1">
@@ -158,8 +183,8 @@ export const MegaMenuItem = ({
   return (
     <div
       ref={itemRef}
-      onMouseEnter={() => children && setActive(item)}
-      onMouseLeave={() => children && setActive(null)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       className="relative px-2 py-1"
     >
       <div className="relative z-20 inline-flex items-center rounded-lg hover:bg-muted/50 focus-within:bg-muted/50">
@@ -179,10 +204,13 @@ export const MegaMenuItem = ({
         <button
           ref={triggerRef}
           type="button"
-          onClick={() => setActive(isOpen ? null : item)}
+          onClick={() => {
+            if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+            setActive(isOpen ? null : item);
+          }}
           aria-label={`${isOpen ? "Close" : "Open"} ${item} menu`}
           aria-expanded={isOpen}
-          aria-haspopup="true"
+          aria-haspopup="menu"
           aria-controls="solutions-mega-menu"
           className="cursor-pointer text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white transition-colors duration-150 px-2.5 py-1.5 rounded-r-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 inline-flex items-center justify-center min-h-[40px] min-w-[36px]"
         >
@@ -194,7 +222,11 @@ export const MegaMenuItem = ({
       </div>
 
       {children && isOpen && (
-        <div className="absolute top-[calc(100%_+_0.6rem)] left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 z-50">
+        <div
+          role="region"
+          aria-label={`${item} Submenu`}
+          className="absolute top-[calc(100%_+_0.6rem)] left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 z-50"
+        >
           {children}
         </div>
       )}

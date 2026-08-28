@@ -60,8 +60,8 @@ export function SolutionsOverviewSection({ asPage = false }: { asPage?: boolean 
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAPReveal(containerRef, [
-    { selector: ".solutions-header", y: 20, duration: 0.5, start: "top 90%" },
-    { selector: ".solution-item-card", y: 24, stagger: 0.06, duration: 0.5, start: "top 88%" },
+    { selector: ".solutions-header", y: 20, duration: 0.6, start: "top 85%" },
+    { selector: ".solution-item-card", y: 20, stagger: 0.08, duration: 0.6, start: "top 85%" },
   ]);
 
   return (
@@ -74,7 +74,7 @@ export function SolutionsOverviewSection({ asPage = false }: { asPage?: boolean 
         {/* Section Header */}
         <div className="solutions-header flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-400 text-xs font-mono mb-3">
               <span>{"// Dedicated Solutions"}</span>
             </div>
             {asPage ? (
@@ -92,7 +92,7 @@ export function SolutionsOverviewSection({ asPage = false }: { asPage?: boolean 
           </div>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-500 dark:hover:text-violet-300 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded"
           >
             <span>Request customized solution brief</span>
             <ArrowRight className="w-4 h-4" />
@@ -110,7 +110,7 @@ export function SolutionsOverviewSection({ asPage = false }: { asPage?: boolean 
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-violet-500/10 text-violet-400 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400 flex items-center justify-center">
                       <Icon className="w-5 h-5" aria-hidden="true" />
                     </div>
                     <span className="text-[11px] font-mono text-muted-foreground uppercase px-2 py-0.5 rounded bg-muted">
@@ -121,7 +121,7 @@ export function SolutionsOverviewSection({ asPage = false }: { asPage?: boolean 
                   <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">
                     <Link
                       href={`/solutions/${item.slug}`}
-                      className="hover:text-violet-400 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded"
+                      className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded"
                     >
                       {item.title}
                     </Link>
@@ -131,8 +131,8 @@ export function SolutionsOverviewSection({ asPage = false }: { asPage?: boolean 
                     {item.short}
                   </p>
 
-                  <div className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1.5 rounded-lg mb-6 inline-flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1.5 rounded-lg mb-6 inline-flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400" />
                     <span>{item.metrics}</span>
                   </div>
                 </div>
@@ -140,7 +140,7 @@ export function SolutionsOverviewSection({ asPage = false }: { asPage?: boolean 
                 <div className="pt-4 border-t border-border flex items-center justify-between">
                   <Link
                     href={`/solutions/${item.slug}`}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-500 dark:hover:text-violet-300 transition-colors"
                   >
                     <span>View Solution Architecture</span>
                     <ArrowRight className="w-3.5 h-3.5" />

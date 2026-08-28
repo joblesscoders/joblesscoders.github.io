@@ -3,10 +3,11 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
 import Hero from "@/components/homepage/hero";
 import { ProofSection } from "@/components/homepage/ProofSection";
-import { WorkSection } from "@/components/homepage/WorkSection";
-import { SolutionsOverviewSection } from "@/components/homepage/SolutionsOverviewSection";
 import { ServicesSection } from "@/components/homepage/ServicesSection";
 import { ProcessSection } from "@/components/homepage/ProcessSection";
+import { WorkSection } from "@/components/homepage/WorkSection";
+import { SolutionsOverviewSection } from "@/components/homepage/SolutionsOverviewSection";
+import { FaqSection } from "@/components/homepage/FaqSection";
 import TechSection from "@/components/homepage/techSection";
 import TeamSection from "@/components/homepage/teamSection";
 import ContactSection from "@/components/homepage/contactSection";
@@ -50,31 +51,34 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
-      {/* 1. Hero with Globe */}
+      {/* 1. Hero with Interactive Code/Architecture Card */}
       <Hero />
 
       {/* 2. Compact Trust / Proof Strip */}
       <ProofSection />
 
-      {/* 3. Selected Work (Visually Prominent) */}
-      <WorkSection />
-
-      {/* 4. Solutions Overview */}
-      <SolutionsOverviewSection />
-
-      {/* 5. Capabilities / Disciplines */}
+      {/* 3. 01 / Capabilities */}
       <ServicesSection />
 
-      {/* 6. Disciplined Engineering Process */}
+      {/* 4. 02 / Methodology */}
       <ProcessSection />
 
-      {/* 7. Technical Arsenal */}
+      {/* 5. 03 / Selected Work */}
+      <WorkSection />
+
+      {/* 6. Turnkey Solutions Overview */}
+      <SolutionsOverviewSection />
+
+      {/* 7. 04 / FAQ */}
+      <FaqSection />
+
+      {/* 8. Technical Arsenal */}
       <TechSection />
 
-      {/* 8. The Collective Team */}
+      {/* 9. The Collective Team */}
       <TeamSection />
 
-      {/* 9. Final Contact & Inquiry */}
+      {/* 10. Final Contact & Inquiry */}
       <ContactSection />
     </div>
   );

@@ -53,12 +53,12 @@ export function useGSAPReveal(
       configs.forEach((config) => {
         const {
           selector,
-          stagger = 0.06,
-          y = 24,
-          duration = 0.5,
+          stagger = 0.08,
+          y = 20,
+          duration = 0.6,
           delay = 0,
-          start = "top 92%",
-          ease = "power3.out",
+          start = "top 85%",
+          ease = "power2.out",
         } = config;
 
         const elements = gsap.utils.toArray<HTMLElement>(selector, containerRef.current);
@@ -70,7 +70,7 @@ export function useGSAPReveal(
           onEnter: (batch) => {
             gsap.fromTo(
               batch,
-              { autoAlpha: 0, y },
+              { autoAlpha: 0, y, willChange: "transform, opacity" },
               {
                 autoAlpha: 1,
                 y: 0,
@@ -79,7 +79,7 @@ export function useGSAPReveal(
                 ease,
                 stagger,
                 overwrite: "auto",
-                clearProps: "transform,opacity,visibility",
+                clearProps: "transform,opacity,visibility,willChange",
               }
             );
           },

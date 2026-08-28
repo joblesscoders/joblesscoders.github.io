@@ -39,8 +39,8 @@ export function ProcessSection() {
   ];
 
   useGSAPReveal(containerRef, [
-    { selector: ".process-header", y: 20, duration: 0.5, start: "top 90%" },
-    { selector: ".process-step", y: 24, stagger: 0.07, duration: 0.5, start: "top 88%" },
+    { selector: ".process-header", y: 20, duration: 0.6, start: "top 85%" },
+    { selector: ".process-step", y: 20, stagger: 0.08, duration: 0.6, start: "top 85%" },
   ]);
 
   return (
@@ -48,14 +48,14 @@ export function ProcessSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="process-header max-w-3xl mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
-            <span>{"// How We Work"}</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-400 text-xs font-mono mb-3">
+            <span>02 / METHODOLOGY</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-            A Disciplined Engineering Process
+            Disciplined Sprint Engineering
           </h2>
           <p className="mt-2 text-sm sm:text-base text-muted-foreground">
-            Predictable sprint cycles from initial architectural blueprint to production deployment and monitoring.
+            Predictable 2-week sprint cycles from architecture blueprinting to automated CI/CD and production observability.
           </p>
         </div>
 
@@ -70,10 +70,10 @@ export function ProcessSection() {
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
-                    <div className="p-2 rounded-xl bg-violet-500/10 text-violet-400">
+                    <div className="p-2 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400">
                       <Icon className="w-5 h-5" aria-hidden="true" />
                     </div>
-                    <span className="text-xs font-mono text-violet-400 font-bold px-2 py-0.5 bg-violet-500/10 rounded">
+                    <span className="text-xs font-mono text-violet-600 dark:text-violet-400 font-bold px-2 py-0.5 bg-violet-500/10 rounded">
                       {item.step}
                     </span>
                   </div>

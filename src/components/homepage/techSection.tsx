@@ -47,8 +47,8 @@ export default function TechSection() {
   ];
 
   useGSAPReveal(containerRef, [
-    { selector: ".tech-header", y: 20, duration: 0.5, start: "top 90%" },
-    { selector: ".tech-card", y: 24, stagger: 0.07, duration: 0.5, start: "top 88%" },
+    { selector: ".tech-header", y: 20, duration: 0.6, start: "top 85%" },
+    { selector: ".tech-card", y: 20, stagger: 0.08, duration: 0.6, start: "top 85%" },
   ]);
 
   return (
@@ -59,7 +59,7 @@ export default function TechSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="tech-header max-w-3xl mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-400 text-xs font-mono mb-3">
             <span>{"// Technology Arsenal"}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">

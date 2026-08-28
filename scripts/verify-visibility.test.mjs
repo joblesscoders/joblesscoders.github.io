@@ -13,6 +13,7 @@ const auditedComponents = [
   "components/homepage/ServicesSection.tsx",
   "components/homepage/ProcessSection.tsx",
   "components/homepage/ProofSection.tsx",
+  "components/homepage/FaqSection.tsx",
   "components/homepage/techSection.tsx",
   "components/homepage/teamSection.tsx",
   "components/homepage/contactSection.tsx",

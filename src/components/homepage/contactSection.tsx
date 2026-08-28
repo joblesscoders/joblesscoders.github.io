@@ -110,9 +110,9 @@ export default function ContactSection() {
   }, []);
 
   useGSAPReveal(containerRef, [
-    { selector: ".contact-header", y: 20, duration: 0.5, start: "top 90%" },
-    { selector: ".contact-info-col", y: 24, duration: 0.5, start: "top 88%" },
-    { selector: ".contact-form-col", y: 24, duration: 0.5, delay: 0.1, start: "top 88%" },
+    { selector: ".contact-header", y: 20, duration: 0.6, start: "top 85%" },
+    { selector: ".contact-info-col", y: 20, duration: 0.6, start: "top 85%" },
+    { selector: ".contact-form-col", y: 20, duration: 0.6, delay: 0.1, start: "top 85%" },
   ]);
 
   const handleChange = (field: keyof ContactPayload, value: string) => {
@@ -203,7 +203,7 @@ export default function ContactSection() {
       {/* Section Header */}
       <div className="contact-header text-center mb-16 relative z-10">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground tracking-tight">
-          Contact <span className="text-violet-400">Us</span>
+          Contact <span className="text-violet-600 dark:text-violet-400">Us</span>
         </h2>
 
         <p className="mt-3 text-muted-foreground max-w-xl mx-auto text-base sm:text-lg">
@@ -224,7 +224,7 @@ export default function ContactSection() {
                   className="group flex items-start gap-4 p-4 rounded-xl bg-card border border-border hover:border-violet-500/30 transition-all duration-200"
                 >
                   <div className="flex-shrink-0 w-11 h-11 rounded-lg bg-violet-500/10 border border-violet-500/15 flex items-center justify-center">
-                    <item.icon className="w-5 h-5 text-violet-400" aria-hidden="true" />
+                    <item.icon className="w-5 h-5 text-violet-600 dark:text-violet-400" aria-hidden="true" />
                   </div>
                   <div>
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-0.5">
@@ -233,7 +233,7 @@ export default function ContactSection() {
                     {item.href ? (
                       <a
                         href={item.href}
-                        className="text-sm font-medium text-foreground hover:text-violet-400 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded px-1 py-0.5 min-h-[44px] inline-flex items-center"
+                        className="text-sm font-medium text-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded px-1 py-0.5 min-h-[44px] inline-flex items-center"
                       >
                         {item.value}
                       </a>

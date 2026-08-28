@@ -35,7 +35,7 @@ export function ProofSection() {
   ];
 
   useGSAPReveal(containerRef, [
-    { selector: ".proof-item", y: 16, stagger: 0.06, duration: 0.45, start: "top 92%" },
+    { selector: ".proof-item", y: 20, stagger: 0.08, duration: 0.6, start: "top 85%" },
   ]);
 
   return (

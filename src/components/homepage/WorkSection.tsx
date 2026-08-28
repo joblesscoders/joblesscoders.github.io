@@ -11,8 +11,8 @@ export function WorkSection() {
   const projects = getPublishedProjects();
 
   useGSAPReveal(containerRef, [
-    { selector: ".work-header", y: 20, duration: 0.5, start: "top 90%" },
-    { selector: ".work-card", y: 24, stagger: 0.08, duration: 0.5, start: "top 88%" },
+    { selector: ".work-header", y: 20, duration: 0.6, start: "top 85%" },
+    { selector: ".work-card", y: 20, stagger: 0.08, duration: 0.6, start: "top 85%" },
   ]);
 
   return (
@@ -21,19 +21,19 @@ export function WorkSection() {
         {/* Section Header */}
         <div className="work-header flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono mb-3">
-              <span>{"// Selected Work"}</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-400 text-xs font-mono mb-3">
+              <span>03 / SELECTED WORK</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
               Production Proof & Real Outcomes
             </h2>
             <p className="mt-2 text-sm sm:text-base text-muted-foreground max-w-xl">
-              We engineer scalable software solutions backed by verified performance metrics and transparent source code.
+              Production systems engineered for scale, backed by verified benchmarks, transparent architectures, and measurable outcomes.
             </p>
           </div>
           <Link
             href="/work"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-500 dark:hover:text-violet-300 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded"
           >
             <span>View all work & proof</span>
             <ArrowRight className="w-4 h-4" />
@@ -49,7 +49,7 @@ export function WorkSection() {
             >
               <div>
                 <div className="flex items-center justify-between gap-4 mb-3">
-                  <span className="text-xs font-mono text-violet-400 font-semibold uppercase tracking-wider">
+                  <span className="text-xs font-mono text-violet-600 dark:text-violet-400 font-semibold uppercase tracking-wider">
                     {project.category}
                   </span>
                   {project.timeframe && (
@@ -62,7 +62,7 @@ export function WorkSection() {
                 <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3">
                   <Link
                     href={`/work/${project.slug}`}
-                    className="hover:text-violet-400 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded"
+                    className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded"
                   >
                     {project.title}
                   </Link>
@@ -83,7 +83,7 @@ export function WorkSection() {
                     </p>
                   </div>
                   <div>
-                    <span className="font-mono font-semibold text-violet-400 uppercase tracking-wider text-[10px] block mb-1">
+                    <span className="font-mono font-semibold text-violet-600 dark:text-violet-400 uppercase tracking-wider text-[10px] block mb-1">
                       Our Contribution
                     </span>
                     <p className="text-muted-foreground leading-relaxed">
@@ -99,7 +99,7 @@ export function WorkSection() {
                   </span>
                   {project.verifiableOutcomes.map((outcome, i) => (
                     <div key={i} className="flex items-start gap-2 text-xs text-foreground">
-                      <ShieldCheck className="w-3.5 h-3.5 shrink-0 mt-0.5 text-emerald-400" />
+                      <ShieldCheck className="w-3.5 h-3.5 shrink-0 mt-0.5 text-emerald-500 dark:text-emerald-400" />
                       <span>{outcome}</span>
                     </div>
                   ))}
@@ -122,7 +122,7 @@ export function WorkSection() {
               <div className="pt-4 border-t border-border flex items-center justify-between">
                 <Link
                   href={`/work/${project.slug}`}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-600 dark:text-violet-400 hover:text-violet-500 dark:hover:text-violet-300 transition-colors"
                 >
                   <span>Read Case Study</span>
                   <ArrowRight className="w-4 h-4" />
@@ -159,7 +159,7 @@ export function WorkSection() {
           <div className="work-card flex flex-col justify-between p-6 sm:p-8 rounded-2xl bg-card border border-border/80 border-dashed">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground mb-3">
-                <Lock className="w-3.5 h-3.5 text-violet-400" />
+                <Lock className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
                 <span>NDA & Enterprise Systems</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3">
@@ -173,15 +173,15 @@ export function WorkSection() {
                   Available Walkthroughs
                 </span>
                 <div className="flex items-start gap-2 text-xs text-muted-foreground">
-                  <span className="text-violet-400 font-mono">-</span>
+                  <span className="text-violet-600 dark:text-violet-400 font-mono">-</span>
                   <span>Enterprise RAG document search pipeline with pgvector</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs text-muted-foreground">
-                  <span className="text-violet-400 font-mono">-</span>
+                  <span className="text-violet-600 dark:text-violet-400 font-mono">-</span>
                   <span>Cross-platform mobile offline data sync architecture</span>
                 </div>
                 <div className="flex items-start gap-2 text-xs text-muted-foreground">
-                  <span className="text-violet-400 font-mono">-</span>
+                  <span className="text-violet-600 dark:text-violet-400 font-mono">-</span>
                   <span>Multi-environment AWS ECS CI/CD infrastructure with Terraform</span>
                 </div>
               </div>
@@ -190,7 +190,7 @@ export function WorkSection() {
             <div className="pt-4 border-t border-border">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-400 hover:text-violet-300 transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-600 dark:text-violet-400 hover:text-violet-500 dark:hover:text-violet-300 transition-colors"
               >
                 <span>Request Architecture Review</span>
                 <ArrowRight className="w-4 h-4" />

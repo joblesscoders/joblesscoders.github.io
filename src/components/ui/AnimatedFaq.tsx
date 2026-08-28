@@ -35,10 +35,10 @@ export default function AnimatedFaq({
             key={faq.question}
             data-state={isOpen ? "open" : "closed"}
             className={cn(
-              "overflow-hidden rounded-2xl border bg-card transition-[border-color,box-shadow,background-color] duration-300",
+              "overflow-hidden rounded-2xl border transition-all duration-200 bg-card",
               isOpen
-                ? "border-violet-500/35 bg-violet-500/[0.035] shadow-lg shadow-violet-950/5"
-                : "border-border hover:border-violet-500/20"
+                ? "border-neutral-400 dark:border-neutral-600 bg-neutral-50/80 dark:bg-neutral-900/50 shadow-sm"
+                : "border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 hover:bg-neutral-50/60 dark:hover:bg-neutral-900/40"
             )}
           >
             <h3>
@@ -48,18 +48,20 @@ export default function AnimatedFaq({
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpenIndex(isOpen ? null : index)}
-                className="group flex w-full cursor-pointer items-center gap-4 px-5 py-4 text-left sm:px-6 sm:py-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-[-2px]"
+                className="group flex w-full cursor-pointer items-center justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 focus-visible:outline-offset-[-2px]"
               >
-                <span className="font-mono text-[11px] font-semibold text-violet-400/80">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="flex-1 text-sm font-semibold text-foreground sm:text-base">
-                  {faq.question}
-                </span>
+                <div className="flex items-center gap-3.5 flex-1 pr-2">
+                  <span className="font-mono text-xs font-semibold text-violet-600 dark:text-violet-400">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm sm:text-base font-semibold text-foreground leading-snug">
+                    {faq.question}
+                  </span>
+                </div>
                 <span
                   className={cn(
-                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background/70 text-muted-foreground transition-[transform,color,border-color,background-color] duration-300",
-                    isOpen && "rotate-180 border-violet-500/30 bg-violet-500/10 text-violet-400"
+                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900/80 text-neutral-600 dark:text-neutral-400 transition-transform duration-300 ease-out",
+                    isOpen && "rotate-180 border-violet-500/40 bg-violet-500/10 text-violet-600 dark:text-violet-400"
                   )}
                   aria-hidden="true"
                 >
@@ -79,9 +81,9 @@ export default function AnimatedFaq({
               )}
             >
               <div className="overflow-hidden">
-                <p className="ml-14 border-t border-border/60 px-0 pb-5 pt-4 pr-5 text-xs leading-relaxed text-muted-foreground sm:ml-16 sm:pb-6 sm:pr-6 sm:text-sm">
-                  {faq.answer}
-                </p>
+                <div className="border-t border-neutral-200 dark:border-neutral-800/60 ml-12 sm:ml-14 mr-5 sm:mr-6 pb-5 pt-3.5 sm:pb-6 text-xs sm:text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  <p>{faq.answer}</p>
+                </div>
               </div>
             </div>
           </article>

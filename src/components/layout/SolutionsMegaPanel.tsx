@@ -2,197 +2,182 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import {
-  ShoppingCart,
-  Globe,
-  Rocket,
-  LayoutDashboard,
+  Code2,
   Cpu,
-  Smartphone,
+  Cloud,
   ArrowRight,
-  TrendingUp,
-  RefreshCw,
-  Zap,
+  Sparkles,
+  Layers,
+  Terminal,
   Bot,
-  ShieldCheck,
+  Database,
+  Shield,
+  Workflow,
+  Zap,
 } from "lucide-react";
 
 interface SolutionsMegaPanelProps {
   onItemClick?: () => void;
 }
 
-export const DELIVERABLE_LINKS = [
+export const SOLUTIONS_CATEGORIES = [
   {
-    name: "E-commerce Platforms",
-    href: "/solutions/ecommerce",
-    description: "High-conversion headless storefronts & cart systems",
-    icon: ShoppingCart,
+    category: "Core Engineering",
+    icon: Code2,
+    badgeColor: "text-violet-400 bg-violet-500/10 border-violet-500/20",
+    links: [
+      {
+        name: "Custom Web Apps",
+        href: "/solutions/saas-mvp",
+        description: "High-scale Next.js 15 & React 19 production platforms",
+        icon: Layers,
+      },
+      {
+        name: "Microservices & Backends",
+        href: "/solutions/business-platforms",
+        description: "Distributed event-driven APIs with PostgreSQL & Redis",
+        icon: Terminal,
+      },
+      {
+        name: "API Architecture",
+        href: "/solutions/ecommerce",
+        description: "Sub-second GraphQL & REST headless transaction pipelines",
+        icon: Zap,
+      },
+    ],
   },
   {
-    name: "Portfolio & Brand Websites",
-    href: "/solutions/portfolio-websites",
-    description: "Editorial brand experiences & Core Web Vitals",
-    icon: Globe,
-  },
-  {
-    name: "SaaS & MVP Development",
-    href: "/solutions/saas-mvp",
-    description: "Multi-tenant platforms & 4–6 week launches",
-    icon: Rocket,
-  },
-  {
-    name: "Business Portals & Dashboards",
-    href: "/solutions/business-platforms",
-    description: "Internal operations tools & real-time telemetry",
-    icon: LayoutDashboard,
-  },
-  {
-    name: "AI Automation Systems",
-    href: "/solutions/ai-automation",
-    description: "Custom RAG search & deterministic LLM agents",
+    category: "AI & Data Systems",
     icon: Cpu,
+    badgeColor: "text-indigo-400 bg-indigo-500/10 border-indigo-500/20",
+    links: [
+      {
+        name: "LLM Integrations",
+        href: "/solutions/ai-automation",
+        description: "Enterprise RAG pipelines with pgvector & strict citations",
+        icon: Bot,
+      },
+      {
+        name: "Autonomous Agents",
+        href: "/solutions/ai-automation",
+        description: "Deterministic tool calling & automated multi-step actions",
+        icon: Sparkles,
+      },
+      {
+        name: "Data Pipelines",
+        href: "/solutions/business-platforms",
+        description: "Real-time ETL, vector embedding sync & stream ingest",
+        icon: Database,
+      },
+    ],
   },
   {
-    name: "Mobile Applications",
-    href: "/solutions/mobile-apps",
-    description: "Cross-platform iOS & Android React Native apps",
-    icon: Smartphone,
+    category: "Cloud & Operations",
+    icon: Cloud,
+    badgeColor: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+    links: [
+      {
+        name: "DevOps & Containers",
+        href: "/services/cloud-devops",
+        description: "Docker & AWS ECS orchestration with zero-downtime deploys",
+        icon: Shield,
+      },
+      {
+        name: "CI/CD Automation",
+        href: "/services/cloud-devops",
+        description: "Automated GitHub Actions pipelines & staged testing",
+        icon: Workflow,
+      },
+      {
+        name: "Performance Tuning",
+        href: "/solutions/portfolio-websites",
+        description: "Sub-second LCP, Core Web Vitals & edge cache tuning",
+        icon: Zap,
+      },
+    ],
   },
 ];
 
-export const NEED_LINKS = [
-  {
-    name: "Launch a New Product",
-    href: "/solutions/saas-mvp",
-    description: "Full-stack build from initial schema to launch",
-    icon: TrendingUp,
-  },
-  {
-    name: "Modernize a Platform",
-    href: "/solutions/business-platforms",
-    description: "Refactor legacy debt to modern Next.js 15",
-    icon: RefreshCw,
-  },
-  {
-    name: "Improve Performance & SEO",
-    href: "/solutions/portfolio-websites",
-    description: "Core Web Vitals, technical SEO & semantic structure",
-    icon: Zap,
-  },
-  {
-    name: "Automate Workflows",
-    href: "/solutions/ai-automation",
-    description: "Eliminate manual data ops with LLM pipelines",
-    icon: Bot,
-  },
+// Maintained for mobile drawer compatibility
+export const DELIVERABLE_LINKS = [
+  { name: "SaaS & MVP Platforms", href: "/solutions/saas-mvp" },
+  { name: "E-Commerce Systems", href: "/solutions/ecommerce" },
+  { name: "AI Automation & LLMs", href: "/solutions/ai-automation" },
+  { name: "Operations & Portals", href: "/solutions/business-platforms" },
+  { name: "Mobile Applications", href: "/solutions/mobile-apps" },
+  { name: "Brand & Portfolios", href: "/solutions/portfolio-websites" },
 ];
 
 export function SolutionsMegaPanel({ onItemClick }: SolutionsMegaPanelProps) {
   return (
     <div
       id="solutions-mega-menu"
-      role="region"
+      role="menu"
       aria-label="Solutions Overview Menu"
-      className="w-[780px] lg:w-[860px] p-6 grid grid-cols-12 gap-6 bg-card/95 backdrop-blur-md rounded-2xl border border-border shadow-2xl text-left"
+      className="w-[840px] lg:w-[900px] p-6 bg-white/95 dark:bg-neutral-950/95 backdrop-blur-xl rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-2xl text-left font-sans"
     >
-      {/* Column 1: By Deliverable (Cols 1-5) */}
-      <div className="col-span-5 border-r border-border pr-5">
-        <div className="text-[11px] font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
-          <span>By Deliverable</span>
-        </div>
-        <div className="space-y-1">
-          {DELIVERABLE_LINKS.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={onItemClick}
-                className="group flex items-start gap-3 p-2 rounded-xl hover:bg-muted/70 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500"
-              >
-                <div className="w-7 h-7 rounded-lg bg-violet-500/10 text-violet-400 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-violet-500/20 transition-colors">
-                  <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+      {/* 3 Categorized Columns */}
+      <div className="grid grid-cols-3 gap-6 pb-5">
+        {SOLUTIONS_CATEGORIES.map((col) => {
+          const ColIcon = col.icon;
+          return (
+            <div key={col.category} className="space-y-3">
+              {/* Category Header */}
+              <div className="flex items-center gap-2 pb-2 border-b border-neutral-200 dark:border-neutral-800/80">
+                <div className={`p-1.5 rounded-lg border ${col.badgeColor}`}>
+                  <ColIcon className="w-3.5 h-3.5" aria-hidden="true" />
                 </div>
-                <div>
-                  <div className="text-xs font-semibold text-foreground group-hover:text-violet-400 transition-colors leading-tight">
-                    {item.name}
-                  </div>
-                  <div className="text-[11px] text-muted-foreground leading-snug mt-0.5 line-clamp-1">
-                    {item.description}
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                <span className="text-xs font-mono font-semibold text-neutral-900 dark:text-neutral-100 tracking-tight">
+                  {col.category}
+                </span>
+              </div>
+
+              {/* Category Items */}
+              <div className="space-y-1">
+                {col.links.map((item) => {
+                  const ItemIcon = item.icon;
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      role="menuitem"
+                      onClick={onItemClick}
+                      className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-neutral-100/80 dark:hover:bg-neutral-900/80 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500"
+                    >
+                      <div className="w-6 h-6 rounded-md bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 group-hover:text-violet-600 dark:group-hover:text-violet-300 group-hover:border-violet-500/40 flex items-center justify-center shrink-0 mt-0.5 transition-colors">
+                        <ItemIcon className="w-3.5 h-3.5" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-semibold text-neutral-900 dark:text-neutral-100 group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-colors leading-tight">
+                          {item.name}
+                        </div>
+                        <div className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-snug mt-0.5 line-clamp-1">
+                          {item.description}
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Column 2: By Need (Cols 6-8) */}
-      <div className="col-span-4 border-r border-border pr-5">
-        <div className="text-[11px] font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-          <span>By Business Goal</span>
+      {/* Bottom Bar: Quick link to Custom Enterprise Inquiries */}
+      <div className="pt-3.5 mt-2 border-t border-neutral-200 dark:border-neutral-800/90 flex items-center justify-between px-2 text-xs">
+        <div className="text-neutral-500 dark:text-neutral-400 text-[11px] font-mono">
+          Need dedicated engineering squads, custom SLAs, or private VPC architectures?
         </div>
-        <div className="space-y-1">
-          {NEED_LINKS.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={onItemClick}
-                className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-muted/70 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500"
-              >
-                <div className="w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-indigo-500/20 transition-colors">
-                  <Icon className="w-3.5 h-3.5" aria-hidden="true" />
-                </div>
-                <div>
-                  <div className="text-xs font-semibold text-foreground group-hover:text-indigo-400 transition-colors leading-tight">
-                    {item.name}
-                  </div>
-                  <div className="text-[11px] text-muted-foreground leading-snug mt-0.5 line-clamp-1">
-                    {item.description}
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Column 3: Featured Case Study (Cols 9-12) */}
-      <div className="col-span-3 flex flex-col justify-between p-3.5 rounded-xl bg-muted/40 border border-border/80">
-        <div>
-          <span className="text-[10px] font-mono text-violet-400 font-semibold uppercase tracking-wider block mb-2">
-            Featured Proof
-          </span>
-          <div className="relative w-full h-24 rounded-lg overflow-hidden border border-border mb-3 bg-neutral-900 flex items-center justify-center">
-            <Image
-              src="/assets/Jobless_coders_colored.png"
-              alt="Editorial Studio Platform"
-              width={140}
-              height={70}
-              className="object-contain p-2"
-            />
-          </div>
-          <h4 className="text-xs font-bold text-foreground mb-1 leading-snug">
-            Technical Studio Platform
-          </h4>
-          <div className="flex items-start gap-1.5 text-[11px] text-muted-foreground mb-3">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-            <span>100% self-hosted & zero third-party font blocking</span>
-          </div>
-        </div>
-
         <Link
-          href="/work/studio-marketing-platform"
+          href="/contact?topic=Custom+Enterprise+Architecture"
+          role="menuitem"
           onClick={onItemClick}
-          className="inline-flex items-center gap-1 text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors"
+          className="inline-flex items-center gap-1.5 font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-500 dark:hover:text-violet-300 transition-colors text-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-500 rounded px-2 py-1"
         >
-          <span>View Case Study</span>
-          <ArrowRight className="w-3 h-3" />
+          <span>Custom Enterprise Inquiries</span>
+          <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
         </Link>
       </div>
     </div>
@@ -200,3 +185,4 @@ export function SolutionsMegaPanel({ onItemClick }: SolutionsMegaPanelProps) {
 }
 
 export default SolutionsMegaPanel;
+
