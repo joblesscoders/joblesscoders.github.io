@@ -114,3 +114,39 @@
     @apply min-h-screen bg-background text-foreground font-sans antialiased;
   }
 }
+
+@keyframes hero-drift-1 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes hero-drift-2 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(4px); }
+}
+
+@keyframes hero-drift-3 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(3px); }
+}
+
+@keyframes hero-drift-4 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-drift-1 {
+    animation: hero-drift-1 7s ease-in-out infinite;
+  }
+  .animate-drift-2 {
+    animation: hero-drift-2 8.5s ease-in-out infinite 0.4s;
+  }
+  .animate-drift-3 {
+    animation: hero-drift-3 6.8s ease-in-out infinite 0.8s;
+  }
+  .animate-drift-4 {
+    animation: hero-drift-4 7.8s ease-in-out infinite 1.2s;
+  }
+}
+

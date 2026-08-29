@@ -54,32 +54,32 @@ export default function Hero() {
           .fromTo(
             ".hero-title-line",
             { autoAlpha: 0, y: 20, willChange: "transform, opacity" },
-            { autoAlpha: 1, y: 0, duration: 0.55, stagger: 0.08 },
+            { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.08 },
             "-=0.2"
+          )
+          .fromTo(
+            ".hero-card-wrapper",
+            { autoAlpha: 0, y: 20, scale: 0.98, willChange: "transform, opacity" },
+            { autoAlpha: 1, y: 0, scale: 1, duration: 0.55, ease: "power2.out" },
+            "-=0.45"
           )
           .fromTo(
             ".hero-desc",
             { autoAlpha: 0, y: 16, willChange: "transform, opacity" },
-            { autoAlpha: 1, y: 0, duration: 0.45 },
-            "-=0.3"
+            { autoAlpha: 1, y: 0, duration: 0.4 },
+            "-=0.4"
           )
           .fromTo(
             ".hero-pills",
             { autoAlpha: 0, y: 12, willChange: "transform, opacity" },
-            { autoAlpha: 1, y: 0, duration: 0.4 },
+            { autoAlpha: 1, y: 0, duration: 0.35 },
             "-=0.25"
           )
           .fromTo(
             ".hero-cta-group",
             { autoAlpha: 0, y: 12, willChange: "transform, opacity" },
-            { autoAlpha: 1, y: 0, duration: 0.4 },
+            { autoAlpha: 1, y: 0, duration: 0.35 },
             "-=0.25"
-          )
-          .fromTo(
-            ".hero-card-wrapper",
-            { autoAlpha: 0, y: 24, scale: 0.98, willChange: "transform, opacity" },
-            { autoAlpha: 1, y: 0, scale: 1, duration: 0.6, ease: "power2.out" },
-            "-=0.35"
           );
 
         return () => window.clearTimeout(visibilityFallback);
